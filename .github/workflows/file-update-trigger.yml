@@ -1,0 +1,19 @@
+
+name: Trigger on File Update and Manual Dispatch
+
+on:
+  push:
+    paths:
+      - digiaTestcheck.txt  
+  workflow_dispatch:       
+
+jobs:
+  run-actions:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run some task
+        run: echo "File updated or manually triggered, running task..."
