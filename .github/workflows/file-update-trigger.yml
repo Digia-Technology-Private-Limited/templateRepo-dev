@@ -30,7 +30,7 @@ jobs:
 
       - name: Fetch API Data and Convert to YAML
         run: |
-          node scripts/fetchAndConvert.js ${{ github.event.inputs.projectId }}
+          node scripts/json_yaml.js ${{ github.event.inputs.projectId }}
 
       - name: Create YAML Files
         run: |
