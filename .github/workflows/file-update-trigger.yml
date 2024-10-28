@@ -28,17 +28,21 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Install Dependencies Globally
+      - name: Initialize Node.js Project and Install Dependencies
         run: |
-          npm install -g axios js-yaml
+          npm init -y           # Automatically create package.json
+          npm install axios js-yaml
 
       - name: Run Fetch and Convert Script
         run: |
           node scripts/json_yaml.js ${{ github.event.inputs.projectId }}
 
-      - name: Create YAML Files
+      - name: Move YAML Files
         run: |
-          # Move generated YAML files to the desired directory
           mkdir -p datasources/rest
           mv *.yaml datasources/rest/
           echo "YAML files created in datasources/rest/"
+
+      - name: Cleanup Temporary Files
+        run: |
+          rm -rf node_modules package.json package-lock.json
