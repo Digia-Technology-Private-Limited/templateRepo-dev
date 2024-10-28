@@ -37,12 +37,12 @@ jobs:
         run: |
           node scripts/json_yaml.js ${{ github.event.inputs.projectId }}
 
-      - name: Move YAML Files
-        run: |
-          mkdir -p datasources/rest
-          mv *.yaml datasources/rest/
-          echo "YAML files created in datasources/rest/"
+      # - name: Move YAML Files
+      #   run: |
+      #     mkdir -p datasources/rest
+      #     mv *.yaml datasources/rest/
+      #     echo "YAML files created in datasources/rest/"
 
-      - name: Cleanup Temporary Files
-        run: |
-          rm -rf node_modules package.json package-lock.json
+      # - name: Cleanup Temporary Files
+      #   run: |
+      #     rm -rf node_modules package.json package-lock.json
