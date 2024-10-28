@@ -1,19 +1,39 @@
-
-name: Trigger on File Update and Manual Dispatch
+name: Fetch API Data and Convert to YAML
 
 on:
-  push:
-    paths:
-      - digiaTestcheck.txt  
-  workflow_dispatch:       
+  workflow_dispatch:
+    inputs:
+      projectId:
+        description: 'Project ID to fetch data for'
+        required: true
+        default: 'defaultProjectId' 
+
+permissions:
+  contents: write 
 
 jobs:
-  run-actions:
+  fetch_and_convert:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-      - name: Run some task
-        run: echo "File updated or manually triggered, running task..."
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install Dependencies
+        run: |
+          npm install
+
+      - name: Fetch API Data and Convert to YAML
+        run: |
+          node scripts/fetchAndConvert.js ${{ github.event.inputs.projectId }}
+
+      - name: Create YAML Files
+        run: |
+          # Move generated YAML files to the desired directory
+          mv datasources/rest/*.yaml datasources/rest/
+          echo "YAML files created in datasources/rest/"
