@@ -1,0 +1,26 @@
+id: 671f74dd2aafc21f60a2b52e
+name: courses data
+projectId: 66fe7808e24c351c40239571
+kind: REST
+config:
+  request:
+    method: POST
+    headers:
+      - key: User-Agent
+        value: PostmanRuntime/7.32.3
+        type: String
+    input: JSON
+    body:
+      key: key can be anything
+      value: value can be anything
+    url:
+      value: https://dev.digia.tech/api/courses
+      components:
+        scheme: https
+        host: dev.digia.tech
+        path: api/courses
+        queryParams:
+          - key: populate
+            value: courses
+createdAt: '2024-10-28T11:26:21.713Z'
+updatedAt: '2024-10-28T11:26:21.713Z'

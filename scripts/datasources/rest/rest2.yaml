@@ -1,0 +1,21 @@
+id: 671f724e455fc310a2d7651c
+name: test api
+projectId: 66fe7808e24c351c40239571
+kind: null
+config:
+  request:
+    method: GET
+    headers: null
+    input: null
+    body: null
+    url:
+      value: https://localhost:8080
+      components:
+        scheme: https
+        host: localhost
+        pathSegments: []
+        queryParams: []
+    bodyType: JSON
+    variables: null
+createdAt: '2024-10-28T11:15:26.903Z'
+updatedAt: '2024-10-28T11:15:26.903Z'
