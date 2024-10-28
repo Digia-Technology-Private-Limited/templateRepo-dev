@@ -28,10 +28,6 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Install Dependencies
-        run: |
-          npm install
-
       - name: Fetch API Data and Convert to YAML
         run: |
           node scripts/fetchAndConvert.js ${{ github.event.inputs.projectId }}
