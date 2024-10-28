@@ -28,10 +28,9 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Install Dependencies with npx
+      - name: Install Dependencies Globally
         run: |
-          # Install required packages without creating package.json
-          npx -y -p axios -p js-yaml echo "Dependencies installed"
+          npm install -g axios js-yaml
 
       - name: Run Fetch and Convert Script
         run: |
@@ -40,5 +39,6 @@ jobs:
       - name: Create YAML Files
         run: |
           # Move generated YAML files to the desired directory
-          mv datasources/rest/*.yaml datasources/rest/
+          mkdir -p datasources/rest
+          mv *.yaml datasources/rest/
           echo "YAML files created in datasources/rest/"
