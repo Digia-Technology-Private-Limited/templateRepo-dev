@@ -5,6 +5,7 @@ const path = require('path');
 
 const BASE_URL = 'https://8a50-122-161-74-136.ngrok-free.app';
 
+// You can also pass projectId dynamically if needed
 const projectId = "66fe7808e24c351c40239571";
 
 if (!projectId) {
@@ -17,7 +18,8 @@ async function fetchData() {
     const response = await axios.post(`${BASE_URL}/api/v1/datasources/project`, null, {
       headers: { projectId }
     });
-    console.log(response.data)
+
+    console.log(response.data);
     const jsonData = response.data.data.response;
 
     if (!Array.isArray(jsonData)) {
@@ -26,8 +28,9 @@ async function fetchData() {
     }
 
     console.log(jsonData);
-    const dirPath = path.join(__dirname, 'datasources', 'rest');
-    fs.mkdirSync(dirPath, { recursive: true });
+    // Adjust the directory structure as needed
+    const dirPath = path.join(__dirname, '..', 'datasources', 'rest'); // Adjust this path if needed
+    fs.mkdirSync(dirPath, { recursive: true }); // Create directories if they don't exist
 
     jsonData.forEach((item, index) => {
       const yamlData = yaml.dump(item);
