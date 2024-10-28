@@ -6,14 +6,14 @@ on:
       projectId:
         description: 'Project ID to fetch data for'
         required: true
-        default: 'defaultProjectId' 
+        default: 'defaultProjectId'
 
   push:
     branches:
-      - main  # Triggers on any push to the main branch
+      - main  # Trigger on push to the main branch
 
 permissions:
-  contents: write # Allow the workflow to write to the repository
+  contents: write
 
 jobs:
   fetch_and_convert:
@@ -30,7 +30,8 @@ jobs:
 
       - name: Fetch API Data and Convert to YAML
         run: |
-          node scripts/json_yaml.js ${{ github.event.inputs.projectId }}
+          # Use npx to run the script with required packages inline
+          npx -y axios@latest js-yaml@latest node scripts/json_yaml.js ${{ github.event.inputs.projectId }}
 
       - name: Create YAML Files
         run: |
