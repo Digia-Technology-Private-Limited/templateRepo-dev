@@ -41,6 +41,7 @@ jobs:
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'your-username@users.noreply.github.com'
+          git pull
           git add datasources
           git commit -m "Add YAML files for project ID "
           git push
