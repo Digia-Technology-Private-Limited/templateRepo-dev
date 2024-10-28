@@ -3,7 +3,7 @@ const fs = require('fs');
 const yaml = require('js-yaml');
 const path = require('path');
 
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'https://8a50-122-161-74-136.ngrok-free.app';
 
 const projectId = "66fe7808e24c351c40239571";
 
