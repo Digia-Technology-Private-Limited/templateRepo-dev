@@ -8,8 +8,12 @@ on:
         required: true
         default: 'defaultProjectId' 
 
+  push:
+    branches:
+      - main  # Triggers on any push to the main branch
+
 permissions:
-  contents: write 
+  contents: write # Allow the workflow to write to the repository
 
 jobs:
   fetch_and_convert:
