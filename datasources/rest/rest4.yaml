@@ -1,4 +1,4 @@
-id: 671f894eac120c7fee42e8cc
+id: 671f752a2aafc21f60a2b539
 name: courses data
 projectId: 66fe7808e24c351c40239571
 kind: REST
@@ -22,5 +22,5 @@ config:
         queryParams:
           - key: populate
             value: courses
-createdAt: '2024-10-28T12:53:34.527Z'
-updatedAt: '2024-10-28T12:53:34.527Z'
+createdAt: '2024-10-28T11:27:38.520Z'
+updatedAt: '2024-10-28T11:27:38.520Z'
