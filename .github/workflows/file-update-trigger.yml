@@ -30,8 +30,8 @@ jobs:
 
       - name: Initialize Node.js Project and Install Dependencies
         run: |
-          npm init -y           # Automatically create package.json
-          npm install axios js-yaml
+          npm init -y                   # Automatically create package.json
+          npm install axios js-yaml     # Install required packages
 
       - name: Run Fetch and Convert Script
         run: |
@@ -39,10 +39,17 @@ jobs:
 
       # - name: Move YAML Files
       #   run: |
-      #     mkdir -p datasources/rest
-      #     mv *.yaml datasources/rest/
-      #     echo "YAML files created in datasources/rest/"
+      #     mkdir -p datasources/rest     # Create the target directory if it doesn't exist
+      #     mv *.yaml datasources/rest/    # Move the generated YAML files
 
-      # - name: Cleanup Temporary Files
-      #   run: |
-      #     rm -rf node_modules package.json package-lock.json
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'your-username@users.noreply.github.com'
+          git add .
+          git commit -m "Add YAML files for project ID "
+          git push
+
+      - name: Cleanup Temporary Files
+        run: |
+          rm -rf node_modules package.json package-lock.json  # Cleanup after job
