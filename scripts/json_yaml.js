@@ -3,8 +3,8 @@ const fs = require('fs');
 const yaml = require('js-yaml');
 const path = require('path');
 
-const BASE_URL = 'https://5eeb-2409-40d2-1013-9bda-c5d5-fbb5-4690-9304.ngrok-free.app';
-// const BASE_URL = 'http://localhost:3000';
+// const BASE_URL = 'https://5eeb-2409-40d2-1013-9bda-c5d5-fbb5-4690-9304.ngrok-free.app';
+const BASE_URL = 'http://localhost:3000';
 
 const projectId = "66bb5a4a8ece7b451df87b74";
 
@@ -28,21 +28,38 @@ async function fetchDataFromApi(apiConfig) {
     fs.mkdirSync(dirPath, { recursive: true });
 
     if (Array.isArray(jsonData)) {
-      if(parentFolderName="functions")
-      {
-        // jsonData.map(item=>
-        // )
-      }
       jsonData.forEach((item, index) => {
         const yamlData = yaml.dump(item);
-        const yamlFilePath = path.join(dirPath, `${folderName}${index + 1}.yaml`);
+        if(parentFolderName=="functions")
+          {
+            folderName = item.functionName;
+            const dirPath = path.join(__dirname, '..', parentFolderName, folderName);
+            fs.mkdirSync(dirPath, { recursive: true });
+            const yamlFilePath = path.join(dirPath, `${folderName}.yaml`);
+            const jsFilePath = path.join(dirPath, `${folderName}.js`);
+            
+            fs.writeFileSync(yamlFilePath, yamlData);
+            fs.writeFileSync(jsFilePath, item.functionRawString);
+            return
+          }
+        if(item.name)
+        {
+          folderName = item.name
+        }
+        if(item.displayName)
+        {
+          folderName = item.displayName
+        }
+        if(item.appDetails)
+        {
+          folderName = item.appDetails.displayName
+        }
+        const yamlFilePath = path.join(dirPath, `${folderName}.yaml`);
         fs.writeFileSync(yamlFilePath, yamlData);
         console.log(`Created ${yamlFilePath}`);
       });
     } else {
-      // If jsonData is a single object, process it as a single file
       const yamlData = yaml.dump(jsonData);
-      console.log(jsonData)
       if(parentFolderName=="design"&&jsonData.TYPOGRAPHY)
       {
        folderName= 'font-tokens'
@@ -53,6 +70,10 @@ async function fetchDataFromApi(apiConfig) {
          folderName= 'color-tokens'
   
         }
+        if(parentFolderName="project")
+          {
+            folderName = jsonData.appDetails.displayName
+          }
       const yamlFilePath = path.join(dirPath, `${folderName}.yaml`);
       fs.writeFileSync(yamlFilePath, yamlData);
       console.log(`Created ${yamlFilePath}`);
@@ -110,8 +131,13 @@ async function fetchMultipleAPIs() {
       endpoint: '/api/v1/functions/getAll',
       folderName: '',
       parentFolderName: 'functions',
-      body: {
-      }
+
+    },
+    {
+      endpoint: '/api/v1/project/getById',
+      folderName: '',
+      parentFolderName: 'project',
+
     }
   ];
 
