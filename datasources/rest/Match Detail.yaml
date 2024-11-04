@@ -1,0 +1,21 @@
+id: 66bb5a4a8ece7b451df87b77
+name: Match Detail
+projectId: 66bb5a4a8ece7b451df87b74
+kind: null
+config:
+  request:
+    method: GET
+    headers: null
+    input: null
+    body: null
+    url:
+      value: https://demo6006061.mockable.io/match-details
+      components:
+        scheme: https
+        host: demo6006061.mockable.io
+        pathSegments:
+          - match-details
+        queryParams: []
+    variables: null
+createdAt: '2024-04-11T17:24:19.602Z'
+updatedAt: '2024-11-04T11:05:43.004Z'

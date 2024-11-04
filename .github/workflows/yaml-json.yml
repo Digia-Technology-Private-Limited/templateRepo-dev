@@ -1,0 +1,51 @@
+name: Fetch API Data and Convert to YAML
+
+on:
+  workflow_dispatch:
+    inputs:
+      projectId:
+        description: 'Project ID to fetch data for'
+        required: true
+        default: 'defaultProjectId'
+
+  push:
+    branches:
+      - main  # Trigger on push to the main branch
+
+permissions:
+  contents: write
+
+jobs:
+  fetch_and_convert:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Initialize Node.js Project and Install Dependencies
+        run: |
+          npm init -y                   # Automatically create package.json
+          npm install axios js-yaml     # Install required packages
+
+      - name: Run Fetch and Convert Script
+        run: |
+          node scripts/yaml_json.js ${{ github.event.inputs.projectId }}
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'your-username@users.noreply.github.com'
+          git pull
+          git add datasources
+          git commit -m "Add YAML files for project ID "
+          git push
+
+      - name: Cleanup Temporary Files
+        run: |
+          rm -rf node_modules package.json package-lock.json  # Cleanup after job

@@ -1,0 +1,21 @@
+id: 66bb5a4a8ece7b451df87b76
+name: Probo live data
+projectId: 66bb5a4a8ece7b451df87b74
+kind: null
+config:
+  request:
+    method: GET
+    headers: null
+    input: null
+    body: null
+    url:
+      value: https://demo6006061.mockable.io/probolive
+      components:
+        scheme: https
+        host: demo6006061.mockable.io
+        pathSegments:
+          - probolive
+        queryParams: []
+    variables: null
+createdAt: '2024-04-11T10:42:05.288Z'
+updatedAt: '2024-04-11T10:42:05.288Z'
