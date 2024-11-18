@@ -3,10 +3,14 @@ const fs = require('fs');
 const yaml = require('js-yaml');
 const path = require('path');
 
-// const BASE_URL = 'https://5eeb-2409-40d2-1013-9bda-c5d5-fbb5-4690-9304.ngrok-free.app';
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'https://ca8a-103-48-109-107.ngrok-free.app';
+// const BASE_URL = 'http://localhost:3000'
+const args = process.argv.slice(2); // Skip the first two default arguments
+const branch = args[0];
+const projectId = args[1];
+// const branch = "main";
 
-const projectId = "66bb5a4a8ece7b451df87b74";
+// const projectId = "66bb5a4a8ece7b451df87b74";
 
 if (!projectId) {
   console.error('Please provide a projectId.');
