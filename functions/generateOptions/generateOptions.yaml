@@ -1,0 +1,13 @@
+_id: 6729dc73d887bb96fd087565
+projectId: 66bb5a4a8ece7b451df87b74
+userId: Kyzu0hSdQLMDpk8HC0ztWA7BkCM2
+functionName: generateOptions
+functionRawString: >-
+  function generateOptions(options) {if (Array.isArray(options) &&
+  options.length > 0) {return options[0].map(option => ({...option,value:
+  option.enum}));}return [];}
+params:
+  - name: options
+    type: Identifier
+createdAt: '2024-11-05T08:50:59.041Z'
+updatedAt: '2024-11-05T08:50:59.041Z'

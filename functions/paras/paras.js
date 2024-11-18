@@ -1,4 +1,4 @@
 function paras()
 {
-  console.log("helllo paras")
+  console.log("helllo")
 }

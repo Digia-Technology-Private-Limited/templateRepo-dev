@@ -1,134 +1,135 @@
 THEME:
-  theme:
-    light:
-      fg:
-        default:
-          value: '#000000'
-      bg:
-        default:
-          value: '#ffffff'
-      colors:
-        fixed:
-          values:
-            - key: primary
-              label: Primary
-              hex: '#130964'
-            - key: secondary
-              label: Secondary
-              hex: '#39d2c0'
-            - key: tertiary
-              label: Tertiary
-              hex: '#ee8b60'
-            - key: alternate
-              label: Alternate
-              hex: '#ff5963'
-            - key: primarytext
-              label: Primary Text
-              hex: '#101213'
-            - key: secondarytext
-              label: Secondary Text
-              hex: '#57636c'
-            - key: primarybackground
-              label: Primary Background
-              hex: '#f1f4f8'
-            - key: secondarybackground
-              label: Secondary Background
-              hex: '#ffffff'
-            - key: accent1
-              label: Accent 1
-              hex: '#616161'
-            - key: accent2
-              label: Accent 2
-              hex: '##757575'
-            - key: accent2
-              label: Accent 3
-              hex: '#e0e0e0'
-            - key: accent4
-              label: Accent 4
-              hex: '#eeeeee'
-            - key: success
-              label: Success
-              hex: '#04a24c'
-            - key: error
-              label: Error
-              hex: '#e21c3d'
-            - key: Warning
-              label: Warning
-              hex: '#fcdc0c'
-            - key: info
-              label: Info
-              hex: '#1c4494'
-        custom:
-          values:
-            - key: customcolor1
-              label: Custom Color 1
-              hex: '#cc12b0'
-            - key: customcolor2
-              label: Custom Color 2
-              hex: '#205f7d'
-    dark:
-      fg:
-        default:
-          value: '#000000'
-      bg:
-        default:
-          value: '#ffffff'
-      colors:
-        fixed:
-          values:
-            - key: primary
-              label: Primary
-              hex: '#A39CDD'
-            - key: secondary
-              label: Secondary
-              hex: '#39d2c0'
-            - key: tertiary
-              label: Tertiary
-              hex: '#ee8b60'
-            - key: alternate
-              label: Alternate
-              hex: '#ff5963'
-            - key: primarytext
-              label: Primary Text
-              hex: '#101213'
-            - key: secondarytext
-              label: Secondary Text
-              hex: '#57636c'
-            - key: primarybackground
-              label: Primary Background
-              hex: '#f1f4f8'
-            - key: secondarybackground
-              label: Secondary Background
-              hex: '#ffffff'
-            - key: accent1
-              label: Accent 1
-              hex: '#616161'
-            - key: accent2
-              label: Accent 2
-              hex: '##757575'
-            - key: accent2
-              label: Accent 3
-              hex: '#e0e0e0'
-            - key: accent4
-              label: Accent 4
-              hex: '#eeeeee'
-            - key: success
-              label: Success
-              hex: '#04a24c'
-            - key: error
-              label: Error
-              hex: '#e21c3d'
-            - key: Warning
-              label: Warning
-              hex: '#fcdc0c'
-            - key: info
-              label: Info
-              hex: '#1c4494'
-        custom:
-          values:
-            - key: customcolor1
-              label: Custom Color 1
-              hex: '#cc12b0'
-            - key: customcolor2
-              label: Custom Color 2
-              hex: '#205f7d'
+  THEME:
+    theme:
+      light:
+        fg:
+          default:
+            value: '#000000'
+        bg:
+          default:
+            value: '#ffffff'
+        colors:
+          fixed:
+            values:
+              - key: primary
+                label: Primary
+                hex: '#130964'
+              - key: secondary
+                label: Secondary
+                hex: '#39d2c0'
+              - key: tertiary
+                label: Tertiary
+                hex: '#ee8b60'
+              - key: alternate
+                label: Alternate
+                hex: '#ff5963'
+              - key: primarytext
+                label: Primary Text
+                hex: '#101213'
+              - key: secondarytext
+                label: Secondary Text
+                hex: '#57636c'
+              - key: primarybackground
+                label: Primary Background
+                hex: '#f1f4f8'
+              - key: secondarybackground
+                label: Secondary Background
+                hex: '#ffffff'
+              - key: accent1
+                label: Accent 1
+                hex: '#616161'
+              - key: accent2
+                label: Accent 2
+                hex: '##757575'
+              - key: accent2
+                label: Accent 3
+                hex: '#e0e0e0'
+              - key: accent4
+                label: Accent 4
+                hex: '#eeeeee'
+              - key: success
+                label: Success
+                hex: '#04a24c'
+              - key: error
+                label: Error
+                hex: '#e21c3d'
+              - key: Warning
+                label: Warning
+                hex: '#fcdc0c'
+              - key: info
+                label: Info
+                hex: '#1c4494'
+          custom:
+            values:
+              - key: customcolor1
+                label: Custom Color 1
+                hex: '#cc12b0'
+              - key: customcolor2
+                label: Custom Color 2
+                hex: '#205f7d'
+      dark:
+        fg:
+          default:
+            value: '#000000'
+        bg:
+          default:
+            value: '#ffffff'
+        colors:
+          fixed:
+            values:
+              - key: primary
+                label: Primary
+                hex: '#A39CDD'
+              - key: secondary
+                label: Secondary
+                hex: '#39d2c0'
+              - key: tertiary
+                label: Tertiary
+                hex: '#ee8b60'
+              - key: alternate
+                label: Alternate
+                hex: '#ff5963'
+              - key: primarytext
+                label: Primary Text
+                hex: '#101213'
+              - key: secondarytext
+                label: Secondary Text
+                hex: '#57636c'
+              - key: primarybackground
+                label: Primary Background
+                hex: '#f1f4f8'
+              - key: secondarybackground
+                label: Secondary Background
+                hex: '#ffffff'
+              - key: accent1
+                label: Accent 1
+                hex: '#616161'
+              - key: accent2
+                label: Accent 2
+                hex: '##757575'
+              - key: accent2
+                label: Accent 3
+                hex: '#e0e0e0'
+              - key: accent4
+                label: Accent 4
+                hex: '#eeeeee'
+              - key: success
+                label: Success
+                hex: '#04a24c'
+              - key: error
+                label: Error
+                hex: '#e21c3d'
+              - key: Warning
+                label: Warning
+                hex: '#fcdc0c'
+              - key: info
+                label: Info
+                hex: '#1c4494'
+          custom:
+            values:
+              - key: customcolor1
+                label: Custom Color 1
+                hex: '#cc12b0'
+              - key: customcolor2
+                label: Custom Color 2
+                hex: '#205f7d'

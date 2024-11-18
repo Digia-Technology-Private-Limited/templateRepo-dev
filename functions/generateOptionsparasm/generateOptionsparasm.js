@@ -1,0 +1,1 @@
+function generateOptionsparasm(options) {if (Array.isArray(options) && options.length > 0) {return options[0].map(option => ({...option,value: option.enum}));}return [];}

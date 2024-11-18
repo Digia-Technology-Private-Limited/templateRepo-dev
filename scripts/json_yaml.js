@@ -6,8 +6,10 @@ const path = require('path');
 const BASE_URL = 'https://ca8a-103-48-109-107.ngrok-free.app';
 // const BASE_URL = 'http://localhost:3000'
 const args = process.argv.slice(2); // Skip the first two default arguments
-const branch = args[0];
-const projectId = args[1];
+const branch = args[1];
+const projectId = args[0];
+
+console.log(args)
 // const branch = "main";
 
 // const projectId = "66bb5a4a8ece7b451df87b74";
@@ -64,6 +66,7 @@ async function fetchDataFromApi(apiConfig) {
       });
     } else {
       const yamlData = yaml.dump(jsonData);
+      console.log(jsonData)
       if(parentFolderName=="design"&&jsonData.TYPOGRAPHY)
       {
        folderName= 'font-tokens'
@@ -74,7 +77,7 @@ async function fetchDataFromApi(apiConfig) {
          folderName= 'color-tokens'
   
         }
-        if(parentFolderName="project")
+        if(parentFolderName=="project")
           {
             folderName = jsonData.appDetails.displayName
           }
@@ -95,32 +98,33 @@ async function fetchMultipleAPIs() {
       endpoint: '/api/v1/datasources/project',
       folderName: 'rest',
       parentFolderName: 'datasources',
-      body: {}
+      body: {branch:branch}
     },
     {
       endpoint: '/api/v1/environment/getAll',
       folderName: 'environment',
       parentFolderName: 'datasources',
-      body: {}
+      body: {branch:branch}
     },
     {
       endpoint: '/api/v1/page/getAll',
       folderName: '',
       parentFolderName: 'pages',
-      body: {}
+      body: {branch:branch}
     },
     {
       endpoint: '/api/v1/component/getAll',
       folderName: '',
       parentFolderName: 'components',
-      body: {}
+      body: {branch:branch}
     },
     {
       endpoint: '/api/v1/artbooks/getArtbookDetails',
       folderName: '',
       parentFolderName: 'design',
       body: {
-        input: ["TYPOGRAPHY"]
+        input: ["TYPOGRAPHY"],
+        branch: branch
       }
     },
     {
@@ -128,13 +132,15 @@ async function fetchMultipleAPIs() {
       folderName: '',
       parentFolderName: 'design',
       body: {
-        input: ["THEME"]
+        input: ["THEME"],
+        branch: branch
       }
     },
     {
       endpoint: '/api/v1/functions/getAll',
       folderName: '',
       parentFolderName: 'functions',
+      branch:branch
 
     },
     {

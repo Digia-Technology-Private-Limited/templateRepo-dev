@@ -37,7 +37,7 @@ jobs:
 
       - name: Run Fetch and Convert Script
         run: |
-          node scripts/json_yaml.js ${{ github.event.inputs.projectId }}
+          node scripts/json_yaml.js ${{ github.event.inputs.projectId }} ${{ github.event.inputs.branch }}
 
       - name: Commit and Push Changes
         env:
@@ -46,9 +46,14 @@ jobs:
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'your-username@users.noreply.github.com'
           git pull origin $BRANCH
-          git add datasources
-          git commit -m "Add YAML files for project ID ${{ github.event.inputs.projectId }}"
-          git push origin $BRANCH
+          git add .
+          # Check if there are changes to commit
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Add YAML files for project ID ${{ github.event.inputs.projectId }}"
+            git push origin $BRANCH
+          fi
 
       - name: Cleanup Temporary Files
         run: |
