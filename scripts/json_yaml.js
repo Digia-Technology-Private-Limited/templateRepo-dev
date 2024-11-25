@@ -3,14 +3,16 @@ const fs = require('fs');
 const yaml = require('js-yaml');
 const path = require('path');
 
-const BASE_URL = 'https://ca8a-103-48-109-107.ngrok-free.app';
-// const args = process.argv.slice(2); // Skip the first two default arguments
-// const branch = args[1];
-// const projectId = args[0];
+const BASE_URL = 'https://1092-2401-4900-1c0a-4131-75c7-4f8a-aec0-6926.ngrok-free.app';
+// const BASE_URL = 'http://localhost:3000';
 
-const branch = "main";
+const args = process.argv.slice(2); // Skip the first two default arguments
+const branch = args[1];
+const projectId = args[0];
 
-const projectId = "66bb5a4a8ece7b451df87b74";
+// const branch = "main";
+
+// const projectId = "66c59af1529ef58dc8381385";
 
 // console.log(args);
 
@@ -70,6 +72,7 @@ async function fetchDataFromApi(apiConfig) {
       });
     } else {
       const yamlData = yaml.dump(jsonData);
+      console.log(jsonData)
       if (parentFolderName === "design" && jsonData.TYPOGRAPHY) {
         folderName = 'font-tokens';
       }

@@ -3,92 +3,82 @@ const fs = require('fs');
 const yaml = require('js-yaml');
 const path = require('path');
 
-const BASE_URL = 'http://localhost:3000';
-const projectId = "66bb5a4a8ece7b451df87b74";
-const branch = "main";
+const BASE_URL = 'https://1092-2401-4900-1c0a-4131-75c7-4f8a-aec0-6926.ngrok-free.app';
+let globalProjectId = null; // Global variable for projectId
 
-if (!projectId) {
-  console.error('Please provide a projectId.');
-  process.exit(1);
-}
 
 // Function to update data from YAML files to API
 async function updateDataFromYamlFiles(folderPath, updateEndpoint) {
   try {
-    const data =folderPath.split('/')
-    const length = data.length
-    const folderName = data[length - 1]
+    const folderName = path.basename(folderPath);
     const files = fs.readdirSync(folderPath);
 
     for (const file of files) {
       const filePath = path.join(folderPath, file);
-      if(folderName==="functions") 
-      {
-        let strJsData
-        const nestedFolderPaths = `${folderPath}/${file}`
+
+      if (folderName === "functions") {
+        let jsCode;
+        const nestedFolderPaths = path.join(folderPath, file);
         const nestedFiles = fs.readdirSync(nestedFolderPaths);
+
         for (const nestedFile of nestedFiles) {
           const nestedFilePath = path.join(nestedFolderPaths, nestedFile);
+
           if (path.extname(nestedFile) === '.js') {
-            jsData = fs.readFileSync(nestedFilePath, 'utf8');
-           strJsData = jsData
+            jsCode = fs.readFileSync(nestedFilePath, 'utf8');
           }
-          if(path.extname(nestedFile)==='.yaml')
-          {
+
+          if (path.extname(nestedFile) === '.yaml') {
             const yamlData = fs.readFileSync(nestedFilePath, 'utf8');
-            let jsonData = yaml.load(yamlData);
-            jsonData.functionRawString = strJsData
-            console.log(jsonData)
+            const jsonData = yaml.load(yamlData);
+            const { _id, ...dataWithoutId } = jsonData;
+            dataWithoutId.functionRawString = jsCode;
+
             await axios.post(`${BASE_URL}${updateEndpoint}`, {
-              ...jsonData
+              ...dataWithoutId,
             }, {
-              headers: { projectId }
+              headers: { projectId: globalProjectId }
             });
           }
         }
-        return
+        return;
+      }
 
-          }    
       if (path.extname(file) === '.yaml') {
-      const yamlData = fs.readFileSync(filePath, 'utf8');
-      const jsonData = yaml.load(yamlData);
-      console.log(jsonData);
-      let id = jsonData.id;
-  
-      if (folderName === "project") {
-        id = jsonData.projectId;
-        await axios.post(`${BASE_URL}${updateEndpoint}`, {
-          id: id,
-          update: jsonData
-        }, {
-          headers: { projectId }
-        });
-      } else if (folderName === "design") {
-        let assetType = "TYPOGRAPHY";
-        if (jsonData.THEME) {
-          assetType = "THEME";
+        const yamlData = fs.readFileSync(filePath, 'utf8');
+        const jsonData = yaml.load(yamlData);
+
+        if (folderName === "project") {
+          globalProjectId = jsonData.projectId; 
+          await axios.post(`${BASE_URL}${updateEndpoint}`, {
+            id: jsonData.projectId,
+            update: jsonData,
+          }, {
+            headers: { projectId: globalProjectId }
+          });
+        } else if (folderName === "design") {
+          const assetType = jsonData.THEME ? "THEME" : "TYPOGRAPHY";
+          const data = jsonData[assetType];
+          const { branch, ...rest } = data || {};
+          await axios.post(`${BASE_URL}${updateEndpoint}`, {
+            assetType,
+            assetData: jsonData,
+            branch:branch
+          }, {
+            headers: { projectId: globalProjectId }
+          });
+        } else {
+          await axios.post(`${BASE_URL}${updateEndpoint}`, {
+            id: jsonData.id,
+            update: jsonData,
+          }, {
+            headers: { projectId: globalProjectId || jsonData.projectId }
+          });
         }
-  
-        await axios.post(`${BASE_URL}${updateEndpoint}`, {
-          assetType: assetType,
-          assetData: jsonData
-        }, {
-          headers: { projectId }
-        });
-      } 
-       else  {
-        await axios.post(`${BASE_URL}${updateEndpoint}`, {
-          id: id,
-          update: jsonData
-        }, {
-          headers: { projectId }
-        });
-        console.log(`Updated data for ${file} via ${updateEndpoint}`);
       }
     }
-  }
   } catch (error) {
-    console.error(`Error updating data from YAML files: ${error}`);
+    console.error(`Error updating data from YAML files: ${error.message}`);
   }
 }
 
@@ -96,33 +86,33 @@ async function updateDataFromYamlFiles(folderPath, updateEndpoint) {
 async function updateMultipleAPIs() {
   const apiUpdateConfigs = [
     {
+      folderPath: path.join(__dirname, '..', 'project'),
+      updateEndpoint: '/api/v1/project/update',
+    },
+    {
       folderPath: path.join(__dirname, '..', 'datasources', 'rest'),
-      updateEndpoint: '/api/v1/datasources/update'
+      updateEndpoint: '/api/v1/datasources/update',
     },
     {
       folderPath: path.join(__dirname, '..', 'datasources', 'environment'),
-      updateEndpoint: '/api/v1/environment/update'
+      updateEndpoint: '/api/v1/environment/update',
     },
     {
       folderPath: path.join(__dirname, '..', 'pages'),
-      updateEndpoint: '/api/v1/page/update'
+      updateEndpoint: '/api/v1/page/update',
     },
     {
       folderPath: path.join(__dirname, '..', 'components'),
-      updateEndpoint: '/api/v1/component/update'
+      updateEndpoint: '/api/v1/component/update',
     },
     {
       folderPath: path.join(__dirname, '..', 'design'),
-      updateEndpoint: '/api/v1/artbooks/update'
+      updateEndpoint: '/api/v1/artbooks/update',
     },
     {
       folderPath: path.join(__dirname, '..', 'functions'),
-      updateEndpoint: '/api/v1/functions/update'
+      updateEndpoint: '/api/v1/functions/update',
     },
-    {
-      folderPath: path.join(__dirname, '..', 'project'),
-      updateEndpoint: '/api/v1/project/update'
-    }
   ];
 
   for (const config of apiUpdateConfigs) {
