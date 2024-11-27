@@ -25,7 +25,9 @@ jobs:
 
       - name: Check for first commit
         run: |
-          FIRST_COMMIT=$(git rev-list --max-parents=0 HEAD)          
+          FIRST_COMMIT=$(git rev-list --max-parents=0 HEAD)
+          echo "First commit hash: $FIRST_COMMIT"
+          echo "Current commit hash: $GITHUB_SHA"
           if [[ "$FIRST_COMMIT" == "$GITHUB_SHA" ]]; then
             echo "Skipping workflow because this is the first commit."
             exit 0
