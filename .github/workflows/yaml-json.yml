@@ -32,7 +32,7 @@ jobs:
           echo "Current commit hash: $GITHUB_SHA"
           if [[ "$FIRST_COMMIT" == "$GITHUB_SHA" ]]; then
             echo "Skipping workflow because this is the first commit."
-            exit 0
+            exit 1
           fi
             
       - name: Set up Node.js
