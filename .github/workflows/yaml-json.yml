@@ -20,6 +20,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
       - name: Check for first commit
         run: |
@@ -28,9 +30,6 @@ jobs:
             echo "Skipping workflow because this is the first commit."
             exit 0
             
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
