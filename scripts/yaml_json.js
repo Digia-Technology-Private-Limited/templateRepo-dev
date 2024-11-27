@@ -62,7 +62,7 @@ async function updateDataFromYamlFiles(folderPath, updateEndpoint) {
           const { branch, ...rest } = data || {};
           await axios.post(`${BASE_URL}${updateEndpoint}`, {
             assetType,
-            assetData: jsonData,
+            assetData: data,
             branch:branch
           }, {
             headers: { projectId: globalProjectId }
