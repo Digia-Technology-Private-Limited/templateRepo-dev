@@ -20,6 +20,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      - name: Check for first commit
+        run: |
+          FIRST_COMMIT=$(git rev-list --max-parents=0 HEAD)          
+          if [[ "$FIRST_COMMIT" == "$GITHUB_SHA" ]]; then
+            echo "Skipping workflow because this is the first commit."
+            exit 0
+            
       - name: Checkout Repository
         uses: actions/checkout@v2
 
@@ -36,15 +44,6 @@ jobs:
       - name: Run Fetch and Convert Script
         run: |
           node scripts/yaml_json.js ${{ github.event.inputs.projectId }}
-
-      - name: Commit and Push Changes
-        run: |
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'your-username@users.noreply.github.com'
-          git pull
-          git add datasources
-          git commit -m "Add YAML files for project ID "
-          git push
 
       - name: Cleanup Temporary Files
         run: |
