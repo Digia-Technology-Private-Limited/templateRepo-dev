@@ -29,6 +29,7 @@ jobs:
           if [[ "$FIRST_COMMIT" == "$GITHUB_SHA" ]]; then
             echo "Skipping workflow because this is the first commit."
             exit 0
+          fi
             
       - name: Set up Node.js
         uses: actions/setup-node@v3
