@@ -2,24 +2,22 @@ const axios = require('axios');
 const fs = require('fs');
 const yaml = require('js-yaml');
 const path = require('path');
+const { env } = require('process');
 
-const BASE_URL = 'https://1092-2401-4900-1c0a-4131-75c7-4f8a-aec0-6926.ngrok-free.app';
-// const BASE_URL = 'http://localhost:3000';
+// const BASE_URL = 'https://1092-2401-4900-1c0a-4131-75c7-4f8a-aec0-6926.ngrok-free.app';
+const BASE_URL = 'http://localhost:3000';
+const projectId = "66c59af1529ef58dc8381385"
 
-const args = process.argv.slice(2); // Skip the first two default arguments
-const branch = args[1];
-const projectId = args[0];
+// const args = process.argv.slice(2); // Skip the first two default arguments
+// const branch = args[1];
+// const projectId = args[0];
 
-// const branch = "main";
-
-// const projectId = "66c59af1529ef58dc8381385";
-
-// console.log(args);
-
+// Validate projectId
 if (!projectId) {
   console.error('Please provide a projectId.');
   process.exit(1);
 }
+const branch ="main"
 
 // Function to delete specific folders
 function deleteFolders(folders) {
@@ -34,131 +32,78 @@ function deleteFolders(folders) {
   });
 }
 
-// Function to fetch data from an API and save it as YAML files
-async function fetchDataFromApi(apiConfig) {
-  let { endpoint, folderName = 'default', parentFolderName, body } = apiConfig;
+// Function to process and save data based on the structure
+function processAndSaveData(parentFolderName, folderName, data, fileName = 'default') {
+  const dirPath = path.join(__dirname, '..', parentFolderName, folderName);
+  fs.mkdirSync(dirPath, { recursive: true });
 
-  try {
-    const response = await axios.post(`${BASE_URL}${endpoint}`, body, {
-      headers: { projectId }
-    });
+  if (Array.isArray(data)) {
+    data.forEach((item) => {
+      const yamlData = yaml.dump(item);
+      let currentFileName = fileName;
 
-    const jsonData = response.data.data.response;
+      if (item.name) currentFileName = item.name;
+      if (item.displayName) currentFileName = item.displayName;
+      if (item.functionName) currentFileName = item.functionName;
 
-    const dirPath = path.join(__dirname, '..', parentFolderName, folderName);
-    fs.mkdirSync(dirPath, { recursive: true });
-
-    if (Array.isArray(jsonData)) {
-      jsonData.forEach((item) => {
-        const yamlData = yaml.dump(item);
-        if (parentFolderName === "functions") {
-          folderName = item.functionName;
-          const functionDirPath = path.join(__dirname, '..', parentFolderName, folderName);
-          fs.mkdirSync(functionDirPath, { recursive: true });
-          const yamlFilePath = path.join(functionDirPath, `${folderName}.yaml`);
-          const jsFilePath = path.join(functionDirPath, `${folderName}.js`);
-          fs.writeFileSync(yamlFilePath, yamlData);
-          fs.writeFileSync(jsFilePath, item.functionRawString);
-          return;
-        }
-
-        if (item.name) folderName = item.name;
-        if (item.displayName) folderName = item.displayName;
-        if (item.appDetails) folderName = item.appDetails.displayName;
-
-        const yamlFilePath = path.join(dirPath, `${folderName}.yaml`);
-        fs.writeFileSync(yamlFilePath, yamlData);
-        console.log(`Created ${yamlFilePath}`);
-      });
-    } else {
-      const yamlData = yaml.dump(jsonData);
-      console.log(jsonData)
-      if (parentFolderName === "design" && jsonData.TYPOGRAPHY) {
-        folderName = 'font-tokens';
-      }
-      if (parentFolderName === "design" && jsonData.THEME) {
-        folderName = 'color-tokens';
-      }
-      if (parentFolderName === "project") {
-        folderName = jsonData.appDetails.displayName;
-      }
-      const yamlFilePath = path.join(dirPath, `${folderName}.yaml`);
+      const yamlFilePath = path.join(dirPath, `${currentFileName}.yaml`);
       fs.writeFileSync(yamlFilePath, yamlData);
-      console.log(`Created ${yamlFilePath}`);
+
+      if (item.functionRawString) {
+        const jsFilePath = path.join(dirPath, `${currentFileName}.js`);
+        fs.writeFileSync(jsFilePath, item.functionRawString);
+      }
+
+      console.log(`Created: ${yamlFilePath}`);
+    });
+  } else {
+    const yamlData = yaml.dump(data);
+
+    if (parentFolderName === 'design' && data.TYPOGRAPHY) {
+      folderName = 'font-tokens';
+    }
+    if (parentFolderName === 'design' && data.THEME) {
+      folderName = 'color-tokens';
+    }
+    if (parentFolderName === 'project' && data.appDetails?.displayName) {
+      folderName = data.appDetails.displayName;
     }
 
-  } catch (error) {
-    console.error(`Error fetching data from ${endpoint}: ${error}`);
+    const yamlFilePath = path.join(dirPath, `${folderName}.yaml`);
+    fs.writeFileSync(yamlFilePath, yamlData);
+    console.log(`Created: ${yamlFilePath}`);
   }
 }
 
-// Main function to orchestrate fetching data from multiple APIs
-async function fetchMultipleAPIs() {
-  // Delete specified folders first
+async function fetchAllData() {
   deleteFolders(['datasources', 'components', 'design', 'functions', 'pages', 'project']);
 
-  const apiConfigs = [
-    {
-      endpoint: '/api/v1/datasources/project',
-      folderName: 'rest',
-      parentFolderName: 'datasources',
-      body: { branch }
-    },
-    {
-      endpoint: '/api/v1/environment/getAll',
-      folderName: 'environment',
-      parentFolderName: 'datasources',
-      body: { branch }
-    },
-    {
-      endpoint: '/api/v1/page/getAll',
-      folderName: '',
-      parentFolderName: 'pages',
-      body: { branch }
-    },
-    {
-      endpoint: '/api/v1/component/getAll',
-      folderName: '',
-      parentFolderName: 'components',
-      body: { branch }
-    },
-    {
-      endpoint: '/api/v1/artbooks/getArtbookDetails',
-      folderName: '',
-      parentFolderName: 'design',
-      body: {
-        input: ["TYPOGRAPHY"],
-        branch
-      }
-    },
-    {
-      endpoint: '/api/v1/artbooks/getArtbookDetails',
-      folderName: '',
-      parentFolderName: 'design',
-      body: {
-        input: ["THEME"],
-        branch
-      }
-    },
-    {
-      endpoint: '/api/v1/functions/getAll',
-      folderName: '',
-      parentFolderName: 'functions',
-      body: { branch }
-    },
-    {
-      endpoint: '/api/v1/project/getById',
-      folderName: '',
-      parentFolderName: 'project',
+  try {
+    const token = process.env.DIGIA_TOKEN;
+    const response = await axios.post(`${BASE_URL}/api/v1/project/getProjectAllData`, { branch }, 
+      {
+      headers: { projectId:projectId,digia:token }
     }
-  ];
+  );
 
-  for (const apiConfig of apiConfigs) {
-    await fetchDataFromApi(apiConfig);
+    const { datasources, components, functions, pages, project, typoGraphy, themeData, envs } = response.data.data.response;
+  
+   
+    processAndSaveData('datasources', 'rest', datasources);
+    processAndSaveData('datasources', 'environment', envs);
+    processAndSaveData('components', '', components);
+    processAndSaveData('functions', '', functions);
+    processAndSaveData('pages', '', pages);
+    processAndSaveData('project', '', project);
+    processAndSaveData('design', 'font-tokens', typoGraphy);
+    processAndSaveData('design', 'color-tokens', themeData);
+    
+
+    console.log(`Data for project ID ${projectId} has been fetched and saved.`);
+  } catch (error) {
+    console.error(`Error fetching data: ${error.message}`);
   }
-
-  console.log(`Data for project ID ${projectId} has been fetched and converted to individual YAML files.`);
 }
 
 // Start the process
-fetchMultipleAPIs();
+fetchAllData();
