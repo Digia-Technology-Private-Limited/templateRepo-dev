@@ -22,7 +22,19 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
 
+      - name: Check for first commit
+        run: |
+          FIRST_COMMIT=$(git rev-list --max-parents=0 HEAD)
+          echo "First commit hash: $FIRST_COMMIT"
+          echo "Current commit hash: $GITHUB_SHA"
+          if [[ "$FIRST_COMMIT" == "$GITHUB_SHA" ]]; then
+            echo "Skipping workflow because this is the first commit."
+            exit 1
+          fi
+            
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -36,15 +48,6 @@ jobs:
       - name: Run Fetch and Convert Script
         run: |
           node scripts/yaml_json.js ${{ github.event.inputs.projectId }}
-
-      - name: Commit and Push Changes
-        run: |
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'your-username@users.noreply.github.com'
-          git pull
-          git add datasources
-          git commit -m "Add YAML files for project ID "
-          git push
 
       - name: Cleanup Temporary Files
         run: |
