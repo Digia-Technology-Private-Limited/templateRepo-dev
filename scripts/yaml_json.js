@@ -60,7 +60,7 @@ async function updateAllDataToBackend() {
 
   try {
     const token = process.env.DIGIA_TOKEN;
-    const response = await axios.post(`${BASE_URL}/api/v1/project/updateProjectAllData`,{
+    const response = await axios.post(`${BASE_URL}/api/v1/project/updateProjectDataForGithub`,{
       data: allData
     },{
       headers: {

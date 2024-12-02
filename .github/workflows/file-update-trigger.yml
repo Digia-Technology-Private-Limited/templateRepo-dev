@@ -36,6 +36,8 @@ jobs:
           npm install axios js-yaml     # Install required packages
 
       - name: Run Fetch and Convert Script
+        env:
+          DIGIA_TOKEN: ${{ secrets.DIGIA_TOKEN }}
         run: |
           node scripts/json_yaml.js ${{ github.event.inputs.projectId }} ${{ github.event.inputs.branch }}
 
