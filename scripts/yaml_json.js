@@ -3,29 +3,45 @@ const fs = require('fs');
 const yaml = require('js-yaml');
 const path = require('path');
 
-// const BASE_URL = 'https://1092-2401-4900-1c0a-4131-75c7-4f8a-aec0-6926.ngrok-free.app';
-const BASE_URL = 'http://localhost:3000';
-
+const BASE_URL = 'https://f70c-2401-4900-8856-a0f3-60d1-8e58-590d-768d.ngrok-free.app';
+// const BASE_URL = 'http://localhost:3000';
+let projectId;
 async function collectDataFromYamlFiles(folderPath, folderName) {
   const dataCollection = [];
 
   const traverseFolder = (currentPath) => {
+    if (!fs.existsSync(currentPath)) {
+      console.warn(`Warning: Folder not found - ${currentPath}`);
+      return; // Skip processing if the folder doesn't exist
+    }
+
     const files = fs.readdirSync(currentPath);
 
     for (const file of files) {
       const filePath = path.join(currentPath, file);
 
-      if (fs.lstatSync(filePath).isDirectory()) {
-        traverseFolder(filePath);
-      } else if (path.extname(file) === '.yaml') {
-        const yamlData = fs.readFileSync(filePath, 'utf8');
-        const jsonData = yaml.load(yamlData);
+      try {
+        if (fs.lstatSync(filePath).isDirectory()) {
+          traverseFolder(filePath);
+        } else if (path.extname(file) === '.yaml') {
+          const yamlData = fs.readFileSync(filePath, 'utf8');
+          const jsonData = yaml.load(yamlData);
+          if(jsonData.projectId)
+          {
+            projectId = jsonData.projectId;
+          }
 
-        if (folderName === "functions" && filePath.includes(".js")) {
-          jsonData.functionRawString = fs.readFileSync(filePath.replace('.yaml', '.js'), 'utf8');
+          if (folderName === "functions" && filePath.includes(".js")) {
+            const jsFilePath = filePath.replace('.yaml', '.js');
+            if (fs.existsSync(jsFilePath)) {
+              jsonData.functionRawString = fs.readFileSync(jsFilePath, 'utf8');
+            }
+          }
+
+          dataCollection.push(jsonData);
         }
-
-        dataCollection.push(jsonData);
+      } catch (error) {
+        console.error(`Error processing file ${filePath}: ${error.message}`);
       }
     }
   };
@@ -34,6 +50,7 @@ async function collectDataFromYamlFiles(folderPath, folderName) {
 
   return dataCollection;
 }
+
 async function collectAllData() {
   const folderConfigs = [
     { folderPath: path.join(__dirname, '..', 'project'), folderName: 'project' },
@@ -60,12 +77,13 @@ async function updateAllDataToBackend() {
 
   try {
     const token = process.env.DIGIA_TOKEN;
-    const response = await axios.post(`${BASE_URL}/api/v1/project/updateProjectDataForGithub`,{
-      data: allData
-    },{
+    const response = await axios.post(`${BASE_URL}/api/v1/project/updateProjectDataForGithub`, {
+      data: allData,
+    }, {
       headers: {
-        digia: token
-      }
+        projectid:projectId,
+        "x-digia-github-token": token,
+      },
     });
     console.log(`All data updated successfully:`, response.data);
   } catch (error) {
