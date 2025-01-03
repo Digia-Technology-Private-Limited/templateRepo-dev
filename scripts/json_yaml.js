@@ -83,7 +83,7 @@ async function fetchAllData() {
     const response = await axios.post(`${BASE_URL}/api/v1/project/syncProjectDataForGithub`, { branch }, 
       {
       headers: { projectId:projectId,
-        "x-digia-github-token":"?wubr>hlenr^e(`@7_%/qO>>A~EmGs121bf317c366005646f90ef08f9282ed3cc14bb4ac7932030c070a7d418ed495" }
+        "x-digia-github-token":token }
     }
   );
 
