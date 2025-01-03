@@ -1,0 +1,356 @@
+id: 6777b940d803cb2ac63bcda1
+projectId: 6777b940d803cb2ac63bcd88
+dataSource: null
+slug: homepage
+displayName: HomePage
+inputArgs: null
+variables: null
+layout:
+  root: 2yAWueJ6J6
+  nodes:
+    agwb55kgRV:
+      type: digia/column
+      id: agwb55kgRV
+      parent: null
+      children:
+        - key: children
+          value:
+            - uVDfALgjNX
+            - HFkfP7EwJi
+            - ipEtbk7rRe
+      propData:
+        type: object
+        data:
+          mainAxisAlignment:
+            type: object
+            data: null
+          crossAxisAlignment:
+            type: string
+            data: start
+      defaultPropData:
+        type: object
+        data:
+          visibility:
+            type: bool
+            data: true
+          align:
+            type: string
+            data: none
+          style:
+            type: object
+            data:
+              padding:
+                type: string
+                data: 12,0,12,0
+          onClick:
+            type: action
+            data: null
+      dataRef: null
+    HFkfP7EwJi:
+      type: digia/image
+      id: HFkfP7EwJi
+      parent: agwb55kgRV
+      children: []
+      propData:
+        type: object
+        data:
+          style:
+            type: object
+            data:
+              borderRadius:
+                type: string
+                data: 0,0,0,0
+              bgColor:
+                type: string
+                data: '#EEEEEE'
+          fit:
+            type: string
+            data: cover
+          aspectRatio:
+            type: number
+            data: 2
+          imageSrc:
+            type: string
+            data: https://picsum.photos/id/9/400/225
+          placeHolder:
+            type: string
+            data: null
+          errorImage:
+            type: string
+            data: null
+      defaultPropData:
+        type: object
+        data:
+          visibility:
+            type: bool
+            data: true
+          align:
+            type: string
+            data: none
+          style:
+            type: object
+            data:
+              borderRadius:
+                type: string
+                data: 4,4,4,4
+              height:
+                type: string
+                data: '270'
+          onClick:
+            type: action
+            data: null
+      dataRef: null
+    ipEtbk7rRe:
+      type: digia/button
+      id: ipEtbk7rRe
+      parent: agwb55kgRV
+      children: []
+      propData:
+        type: object
+        data:
+          style:
+            type: object
+            data:
+              padding:
+                type: string
+                data: 12,6,12,6
+              borderRadius:
+                type: string
+                data: 100,100,100,100
+              bgColor:
+                type: string
+                data: '#4945FF'
+              margin:
+                type: string
+                data: 0,16,0,0
+          text:
+            type: object
+            data:
+              textStyle:
+                type: object
+                data:
+                  fontToken:
+                    type: string
+                    data: titleLarge
+                  textColor:
+                    type: string
+                    data: '#FFFFFF'
+                  textBgColor:
+                    type: string
+                    data: ''
+                  textDecoration:
+                    type: string
+                    data: none
+                  textDecorationColor:
+                    type: string
+                    data: null
+                  textDecorationStyle:
+                    type: string
+                    data: null
+              text:
+                type: string
+                data: Click Me!
+          onClick:
+            type: object
+            data:
+              inkWell:
+                type: bool
+                data: true
+              steps:
+                type: array
+                data:
+                  - type: action
+                    data:
+                      type: Action.openUrl
+                      disableActionIf: null
+                      data:
+                        url:
+                          type: string
+                          data: https://www.digia.tech/
+                        launchMode: null
+              analyticsData: null
+          isDisabled:
+            type: bool
+            data: false
+          defaultStyle:
+            type: object
+            data:
+              padding:
+                type: string
+                data: 16,16,16,16
+              elevation:
+                type: number
+                data: 2
+              shadowColor:
+                type: string
+                data: null
+              alignment:
+                type: string
+                data: none
+              backgroundColor:
+                type: string
+                data: '#4945FF'
+      defaultPropData:
+        type: object
+        data:
+          visibility:
+            type: bool
+            data: true
+          align:
+            type: string
+            data: centerLeft
+          style:
+            type: object
+            data:
+              padding:
+                type: string
+                data: 0,0,0,0
+              margin:
+                type: string
+                data: 0,16,0,0
+          onClick:
+            type: object
+            data:
+              inkWell:
+                type: bool
+                data: true
+              steps:
+                type: array
+                data: []
+              analyticsData: null
+      dataRef: null
+    SwVxFsuFZE:
+      type: fw/appBar
+      id: SwVxFsuFZE
+      parent: null
+      children: []
+      propData:
+        type: object
+        data:
+          title:
+            type: object
+            data:
+              text:
+                type: string
+                data: Digia Studio
+              textStyle:
+                type: object
+                data:
+                  fontToken:
+                    type: string
+                    data: titleLarge
+                  textColor:
+                    type: string
+                    data: '#FFFFFF'
+                  textBgColor:
+                    type: string
+                    data: null
+                  textDecoration:
+                    type: string
+                    data: none
+                  textDecorationColor:
+                    type: string
+                    data: null
+                  textDecorationStyle:
+                    type: string
+                    data: null
+          elevation:
+            type: number
+            data: 2
+          shadowColor:
+            type: string
+            data: null
+          backgrounColor:
+            type: string
+            data: '#4945FF'
+          iconColor:
+            type: string
+            data: null
+      defaultPropData: null
+      dataRef: null
+    uVDfALgjNX:
+      type: digia/richText
+      id: uVDfALgjNX
+      parent: agwb55kgRV
+      children: []
+      propData:
+        type: object
+        data:
+          textSpans:
+            type: array
+            data:
+              - type: object
+                data:
+                  text:
+                    type: string
+                    data: 'Hey! '
+                  spanStyle:
+                    type: object
+                    data:
+                      fontToken:
+                        type: string
+                        data: titleLarge
+                      textColor:
+                        type: string
+                        data: '101213'
+              - type: object
+                data:
+                  text:
+                    type: string
+                    data: Welcome to Digia.
+                  spanStyle:
+                    type: object
+                    data:
+                      fontToken:
+                        type: string
+                        data: titleLarge
+                      textColor:
+                        type: string
+                        data: '#4945FF'
+          maxLines:
+            type: number
+            data: null
+          overflow:
+            type: string
+            data: clip
+          alignment:
+            type: string
+            data: start
+          textStyle:
+            type: object
+            data: null
+      defaultPropData:
+        type: object
+        data:
+          visibility:
+            type: bool
+            data: true
+          align:
+            type: string
+            data: none
+          style:
+            type: object
+            data:
+              margin:
+                type: string
+                data: 0,12,0,12
+          onClick:
+            type: action
+            data: null
+      dataRef: null
+    2yAWueJ6J6:
+      type: fw/scaffold
+      id: 2yAWueJ6J6
+      parent: null
+      children:
+        - key: appBar
+          value:
+            - SwVxFsuFZE
+        - key: body
+          value:
+            - agwb55kgRV
+      propData: null
+      defaultPropData: null
+      dataRef: null
+createdAt: '2023-12-16T18:03:41.163Z'
+updatedAt: '2023-12-16T18:03:41.163Z'

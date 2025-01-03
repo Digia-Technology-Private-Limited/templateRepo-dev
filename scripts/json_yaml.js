@@ -8,16 +8,15 @@ const BASE_URL = 'https://dev.digia.tech';
 // const BASE_URL = 'http://localhost:3000';
 
 const args = process.argv.slice(2); // Skip the first two default arguments
-// const branch = args[1];
-// const projectId = args[0];
-const projectId = "6777b940d803cb2ac63bcd88"
+const branch = args[1];
+const projectId = args[0];
+// const projectId = "6777b940d803cb2ac63bcd88"
 
 // Validate projectId
 if (!projectId) {
   console.error('Please provide a projectId.');
   process.exit(1);
 }
-const branch ="main"
 
 // Function to delete specific folders
 function deleteFolders(folders) {
