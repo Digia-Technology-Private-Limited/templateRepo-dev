@@ -4,13 +4,13 @@ const yaml = require('js-yaml');
 const path = require('path');
 const { env } = require('process');
 
-const BASE_URL = 'https://f70c-2401-4900-8856-a0f3-60d1-8e58-590d-768d.ngrok-free.app';
+const BASE_URL = 'https://dev.digia.tech';
 // const BASE_URL = 'http://localhost:3000';
 
 const args = process.argv.slice(2); // Skip the first two default arguments
 // const branch = args[1];
-const projectId = args[0];
-// const projectId = "665907002b7034d1f212f2e8"
+// const projectId = args[0];
+const projectId = "6777b940d803cb2ac63bcd88"
 
 // Validate projectId
 if (!projectId) {
@@ -84,7 +84,7 @@ async function fetchAllData() {
     const response = await axios.post(`${BASE_URL}/api/v1/project/syncProjectDataForGithub`, { branch }, 
       {
       headers: { projectId:projectId,
-        "x-digia-github-token":token }
+        "x-digia-github-token":"?wubr>hlenr^e(`@7_%/qO>>A~EmGs121bf317c366005646f90ef08f9282ed3cc14bb4ac7932030c070a7d418ed495" }
     }
   );
 
