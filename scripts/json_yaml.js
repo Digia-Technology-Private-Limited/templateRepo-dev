@@ -8,8 +8,8 @@ const BASE_URL = 'https://0c3d-2401-4900-8856-dbe2-31a3-a1f2-5c72-49a2.ngrok-fre
 // const BASE_URL = 'http://localhost:3000';
 
 const args = process.argv.slice(2);
-const branchId = args[1];
 const projectId = args[0];
+const branchId = args[1];
 const token = process.env.DIGIA_TOKEN;
 
 // const projectId = "677bad6e819829ef9f050be2"
