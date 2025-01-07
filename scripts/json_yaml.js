@@ -4,14 +4,17 @@ const yaml = require('js-yaml');
 const path = require('path');
 const { env } = require('process');
 
-const BASE_URL = 'https://dev.digia.tech';
+const BASE_URL = 'https://0c3d-2401-4900-8856-dbe2-31a3-a1f2-5c72-49a2.ngrok-free.app';
 // const BASE_URL = 'http://localhost:3000';
 
-const args = process.argv.slice(2); // Skip the first two default arguments
-const branch = args[1];
+const args = process.argv.slice(2);
+const branchId = args[1];
 const projectId = args[0];
-// const projectId = "6777b940d803cb2ac63bcd88"
+const token = process.env.DIGIA_TOKEN;
 
+// const projectId = "677bad6e819829ef9f050be2"
+// const branchId = "677bada8679bf77d4262f74a"
+// const token = "?wubr>hlenr^e(`@7_%/qO>>A~EmGs8125f04f071407447979b3048ab27b8b93cc04c643c8cb194c56ea86b6d6ee15"
 // Validate projectId
 if (!projectId) {
   console.error('Please provide a projectId.');
@@ -78,14 +81,14 @@ async function fetchAllData() {
   deleteFolders(['datasources', 'components', 'design', 'functions', 'pages', 'project']);
 
   try {
-    const token = process.env.DIGIA_TOKEN;
    
-    const response = await axios.post(`${BASE_URL}/api/v1/project/syncProjectDataForGithub`, { branch }, 
+    const response = await axios.post(`${BASE_URL}/api/v1/project/syncProjectDataForGithub`, { branchId }, 
       {
       headers: { projectId:projectId,
         "x-digia-github-token":token }
     }
   );
+  console.log(response.data.data.response)
 
     const { datasources, components, functions, pages, project, typoGraphy, themeData, envs } = response.data.data.response;
   

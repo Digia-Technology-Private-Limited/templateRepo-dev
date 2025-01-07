@@ -2,10 +2,16 @@ const axios = require('axios');
 const fs = require('fs');
 const yaml = require('js-yaml');
 const path = require('path');
+const { json } = require('stream/consumers');
 
-const BASE_URL = 'https://f70c-2401-4900-8856-a0f3-60d1-8e58-590d-768d.ngrok-free.app';
+const BASE_URL = 'https://0c3d-2401-4900-8856-dbe2-31a3-a1f2-5c72-49a2.ngrok-free.app';
 // const BASE_URL = 'http://localhost:3000';
-let projectId;
+
+const args = process.argv.slice(2); // Skip the first two default arguments
+const projectId = args[0];
+const token = process.env.DIGIA_TOKEN;
+
+
 async function collectDataFromYamlFiles(folderPath, folderName) {
   const dataCollection = [];
 
@@ -26,6 +32,7 @@ async function collectDataFromYamlFiles(folderPath, folderName) {
         } else if (path.extname(file) === '.yaml') {
           const yamlData = fs.readFileSync(filePath, 'utf8');
           const jsonData = yaml.load(yamlData);
+          console.log(jsonData)
           if(jsonData.projectId)
           {
             projectId = jsonData.projectId;
@@ -76,13 +83,13 @@ async function updateAllDataToBackend() {
   const allData = await collectAllData();
 
   try {
-    const token = process.env.DIGIA_TOKEN;
+   
     const response = await axios.post(`${BASE_URL}/api/v1/project/updateProjectDataForGithub`, {
       data: allData,
     }, {
       headers: {
         projectid:projectId,
-        "x-digia-github-token": token,
+        "x-digia-github-token":token,
       },
     });
     console.log(`All data updated successfully:`, response.data);
