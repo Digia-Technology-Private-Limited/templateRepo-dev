@@ -1,5 +1,5 @@
-id: 6777b940d803cb2ac63bcda1
-projectId: 6777b940d803cb2ac63bcd88
+id: 677bad6e819829ef9f050bfb
+projectId: 677bad6e819829ef9f050be2
 dataSource: null
 slug: homepage
 displayName: HomePage
@@ -353,4 +353,5 @@ layout:
       defaultPropData: null
       dataRef: null
 createdAt: '2023-12-16T18:03:41.163Z'
-updatedAt: '2023-12-16T18:03:41.163Z'
+updatedAt: '2025-01-06T10:17:13.122Z'
+branchId: 677bada8679bf77d4262f74a
