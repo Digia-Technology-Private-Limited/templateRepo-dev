@@ -4,7 +4,7 @@ const yaml = require('js-yaml');
 const path = require('path');
 const { env } = require('process');
 
-const BASE_URL = 'https://0c3d-2401-4900-8856-dbe2-31a3-a1f2-5c72-49a2.ngrok-free.app';
+const BASE_URL = 'https://9a71-2401-4900-8856-dbe2-31a3-a1f2-5c72-49a2.ngrok-free.app';
 // const BASE_URL = 'http://localhost:3000';
 
 const args = process.argv.slice(2);
@@ -12,9 +12,9 @@ const projectId = args[0];
 const branchId = args[1];
 const token = process.env.DIGIA_TOKEN;
 
-// const projectId = "677bad6e819829ef9f050be2"
-// const branchId = "677bada8679bf77d4262f74a"
-// const token = "?wubr>hlenr^e(`@7_%/qO>>A~EmGs8125f04f071407447979b3048ab27b8b93cc04c643c8cb194c56ea86b6d6ee15"
+// const projectId = "677d117518c5c8d59ede8f8a"
+// const branchId = "677d117618c5c8d59ede8f8c"
+// const token = "?wubr>hlenr^e(`@7_%/qO>>A~EmGsfdba35359d16f8b41003af524dafc508de49257c58f35e539e740a654053e82a"
 // Validate projectId
 if (!projectId) {
   console.error('Please provide a projectId.');
