@@ -12,10 +12,21 @@ on:
         required: true
         default: 'main'
       branchId:
-        description: 'BranchId '
+        description: 'BranchId'
         required: true
         default: 'main'
-      
+      email:
+        description: 'Email for git config'
+        required: true
+        default: 'your-username@users.noreply.github.com'
+      userName:
+        description: 'GitHub Username for commits'
+        required: true
+        default: 'GitHub Actions'
+      commitMessage:
+        description: 'Commit message'
+        required: true
+        default: 'Add YAML files for project ID'
 
 permissions:
   contents: write
@@ -28,7 +39,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.event.inputs.branch }} # Checkout the specified branch
+          ref: ${{ github.event.inputs.branch }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -49,16 +60,20 @@ jobs:
       - name: Commit and Push Changes
         env:
           BRANCH: ${{ github.event.inputs.branch }}
+          USER_EMAIL: ${{ github.event.inputs.email }}
+          USER_NAME: ${{ github.event.inputs.userName }}
+          COMMIT_MESSAGE: ${{ github.event.inputs.commitMessage }}
+          PROJECT_ID: ${{ github.event.inputs.projectId }}
         run: |
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'your-username@users.noreply.github.com'
+          git config --global user.name "$USER_NAME"
+          git config --global user.email "$USER_EMAIL"
           git pull origin $BRANCH
           git add .
           # Check if there are changes to commit
           if git diff --cached --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "Add YAML files for project ID ${{ github.event.inputs.projectId }}"
+            git commit -m "$COMMIT_MESSAGE $PROJECT_ID"
             git push origin $BRANCH
           fi
 

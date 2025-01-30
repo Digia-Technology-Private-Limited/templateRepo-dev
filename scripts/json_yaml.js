@@ -4,7 +4,7 @@ const yaml = require('js-yaml');
 const path = require('path');
 const { env } = require('process');
 
-const BASE_URL = 'https://9a71-2401-4900-8856-dbe2-31a3-a1f2-5c72-49a2.ngrok-free.app';
+const BASE_URL = ' https://f5d6-2401-4900-8857-1d0e-8111-7ea3-1bcf-a297.ngrok-free.app';
 // const BASE_URL = 'http://localhost:3000';
 
 const args = process.argv.slice(2);
