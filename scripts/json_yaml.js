@@ -2,24 +2,40 @@ const axios = require('axios');
 const fs = require('fs');
 const yaml = require('js-yaml');
 const path = require('path');
-const { env } = require('process');
 
-const BASE_URL = ' https://f5d6-2401-4900-8857-1d0e-8111-7ea3-1bcf-a297.ngrok-free.app';
-// const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'http://localhost:3000';
 
 const args = process.argv.slice(2);
 const projectId = args[0];
 const branchId = args[1];
 const token = process.env.DIGIA_TOKEN;
 
-// const projectId = "677d117518c5c8d59ede8f8a"
-// const branchId = "677d117618c5c8d59ede8f8c"
-// const token = "?wubr>hlenr^e(`@7_%/qO>>A~EmGsfdba35359d16f8b41003af524dafc508de49257c58f35e539e740a654053e82a"
+
+
+
+// const projectId = "679e71a12eb5e433e9413880"
+// const branchId = "679e7cf07d71aba9a52b788e"
+// const token = "?wubr>hlenr^e(`@7_%/qO>>A~EmGs12b4af7b31e305f84eb454b2946086c08012a8e45c49a63855fc7ca9a0976a0b"
 // Validate projectId
+
 if (!projectId) {
   console.error('Please provide a projectId.');
   process.exit(1);
 }
+
+// function removeIds(obj) {
+//   if (Array.isArray(obj)) {
+//     return obj.map(removeIds);
+//   } else if (obj !== null && typeof obj === 'object') {
+//     return Object.keys(obj).reduce((acc, key) => {
+//       if (!['id', 'projectId', 'branchId'].includes(key)) {
+//         acc[key] = removeIds(obj[key]);
+//       }
+//       return acc;
+//     }, {});
+//   }
+//   return obj;
+// }
 
 // Function to delete specific folders
 function deleteFolders(folders) {
@@ -28,8 +44,6 @@ function deleteFolders(folders) {
     if (fs.existsSync(dirPath)) {
       fs.rmSync(dirPath, { recursive: true, force: true });
       console.log(`Deleted folder: ${dirPath}`);
-    } else {
-      console.log(`Folder not found: ${dirPath}`);
     }
   });
 }
@@ -38,6 +52,8 @@ function deleteFolders(folders) {
 function processAndSaveData(parentFolderName, folderName, data, fileName = 'default') {
   const dirPath = path.join(__dirname, '..', parentFolderName, folderName);
   fs.mkdirSync(dirPath, { recursive: true });
+
+  // data = removeIds(data); // Remove IDs before saving
 
   if (Array.isArray(data)) {
     data.forEach((item) => {
@@ -81,18 +97,21 @@ async function fetchAllData() {
   deleteFolders(['datasources', 'components', 'design', 'functions', 'pages', 'project']);
 
   try {
-   
-    const response = await axios.post(`${BASE_URL}/api/v1/project/syncProjectDataForGithub`, { branchId }, 
+    const response = await axios.post(
+      `${BASE_URL}/api/v1/project/syncProjectDataForGithub`,
+      { branchId },
       {
-      headers: { projectId:projectId,
-        "x-digia-github-token":token }
-    }
-  );
-  console.log(response.data.data.response)
+        headers: {
+          projectId: projectId,
+          "x-digia-github-token": token
+        }
+      }
+    );
+
+    console.log(response.data.data.response);
 
     const { datasources, components, functions, pages, project, typoGraphy, themeData, envs } = response.data.data.response;
-  
-   
+
     processAndSaveData('datasources', 'rest', datasources);
     processAndSaveData('datasources', 'environment', envs);
     processAndSaveData('components', '', components);
@@ -101,7 +120,6 @@ async function fetchAllData() {
     processAndSaveData('project', '', project);
     processAndSaveData('design', 'font-tokens', typoGraphy);
     processAndSaveData('design', 'color-tokens', themeData);
-    
 
     console.log(`Data for project ID ${projectId} has been fetched and saved.`);
   } catch (error) {

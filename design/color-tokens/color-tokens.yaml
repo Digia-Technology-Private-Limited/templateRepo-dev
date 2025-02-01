@@ -1,6 +1,6 @@
-id: 677d117618c5c8d59ede8f8f
-projectId: 677d117518c5c8d59ede8f8a
-branchId: 677d117618c5c8d59ede8f8c
+id: 679b59d337b436947ce23225
+projectId: 679b594f37b436947ce23189
+branchId: 679b59d337b436947ce23210
 assetType: THEME
 assetData:
   theme:
@@ -136,5 +136,5 @@ assetData:
             - key: customcolor2
               label: Custom Color 2
               hex: '#205f7d'
-createdAt: '2025-01-07T11:35:18.128Z'
-updatedAt: '2025-01-07T11:35:18.128Z'
+createdAt: '2025-01-30T10:49:51.910Z'
+updatedAt: '2025-01-30T10:49:51.910Z'

@@ -1,229 +1,38 @@
-id: 677d117718c5c8d59ede8fa8
-projectId: 677d117518c5c8d59ede8f8a
-dataSource: null
-branchId: 677d117618c5c8d59ede8f8c
+id: 679b59d337b436947ce23219
+projectId: 679b594f37b436947ce23189
+branchId: 679b59d337b436947ce23210
 slug: homepage
 displayName: HomePage
 inputArgs: null
 variables: null
+actions: {}
 layout:
-  root: 2yAWueJ6J6
+  root: GepzD5FB2g
   nodes:
-    agwb55kgRV:
-      type: digia/column
-      id: agwb55kgRV
+    GepzD5FB2g:
+      category: widget
+      type: fw/scaffold
+      id: GepzD5FB2g
       parent: null
       children:
-        - key: children
+        - key: appBar
           value:
-            - uVDfALgjNX
-            - HFkfP7EwJi
-            - ipEtbk7rRe
-      propData:
-        type: object
-        data:
-          mainAxisAlignment:
-            type: object
-            data: null
-          crossAxisAlignment:
-            type: string
-            data: start
-      defaultPropData:
-        type: object
-        data:
-          visibility:
-            type: bool
-            data: true
-          align:
-            type: string
-            data: none
-          style:
-            type: object
-            data:
-              padding:
-                type: string
-                data: 12,0,12,0
-          onClick:
-            type: action
-            data: null
+            - z4YlFUkECJ
+        - key: body
+          value:
+            - OwVv8WRwf7
+      propData: null
+      defaultPropData: null
+      initStateDefs: null
+      componentId: null
+      componentArgs: null
       dataRef: null
-    HFkfP7EwJi:
-      type: digia/image
-      id: HFkfP7EwJi
-      parent: agwb55kgRV
-      children: []
-      propData:
-        type: object
-        data:
-          style:
-            type: object
-            data:
-              borderRadius:
-                type: string
-                data: 0,0,0,0
-              bgColor:
-                type: string
-                data: '#EEEEEE'
-          fit:
-            type: string
-            data: cover
-          aspectRatio:
-            type: number
-            data: 2
-          imageSrc:
-            type: string
-            data: https://picsum.photos/id/9/400/225
-          placeHolder:
-            type: string
-            data: null
-          errorImage:
-            type: string
-            data: null
-      defaultPropData:
-        type: object
-        data:
-          visibility:
-            type: bool
-            data: true
-          align:
-            type: string
-            data: none
-          style:
-            type: object
-            data:
-              borderRadius:
-                type: string
-                data: 4,4,4,4
-              height:
-                type: string
-                data: '270'
-          onClick:
-            type: action
-            data: null
-      dataRef: null
-    ipEtbk7rRe:
-      type: digia/button
-      id: ipEtbk7rRe
-      parent: agwb55kgRV
-      children: []
-      propData:
-        type: object
-        data:
-          style:
-            type: object
-            data:
-              padding:
-                type: string
-                data: 12,6,12,6
-              borderRadius:
-                type: string
-                data: 100,100,100,100
-              bgColor:
-                type: string
-                data: '#4945FF'
-              margin:
-                type: string
-                data: 0,16,0,0
-          text:
-            type: object
-            data:
-              textStyle:
-                type: object
-                data:
-                  fontToken:
-                    type: string
-                    data: titleLarge
-                  textColor:
-                    type: string
-                    data: '#FFFFFF'
-                  textBgColor:
-                    type: string
-                    data: ''
-                  textDecoration:
-                    type: string
-                    data: none
-                  textDecorationColor:
-                    type: string
-                    data: null
-                  textDecorationStyle:
-                    type: string
-                    data: null
-              text:
-                type: string
-                data: Click Me!
-          onClick:
-            type: object
-            data:
-              inkWell:
-                type: bool
-                data: true
-              steps:
-                type: array
-                data:
-                  - type: action
-                    data:
-                      type: Action.openUrl
-                      disableActionIf: null
-                      data:
-                        url:
-                          type: string
-                          data: https://www.digia.tech/
-                        launchMode: null
-              analyticsData: null
-          isDisabled:
-            type: bool
-            data: false
-          defaultStyle:
-            type: object
-            data:
-              padding:
-                type: string
-                data: 16,16,16,16
-              elevation:
-                type: number
-                data: 2
-              shadowColor:
-                type: string
-                data: null
-              alignment:
-                type: string
-                data: none
-              backgroundColor:
-                type: string
-                data: '#4945FF'
-      defaultPropData:
-        type: object
-        data:
-          visibility:
-            type: bool
-            data: true
-          align:
-            type: string
-            data: centerLeft
-          style:
-            type: object
-            data:
-              padding:
-                type: string
-                data: 0,0,0,0
-              margin:
-                type: string
-                data: 0,16,0,0
-          onClick:
-            type: object
-            data:
-              inkWell:
-                type: bool
-                data: true
-              steps:
-                type: array
-                data: []
-              analyticsData: null
-      dataRef: null
-    SwVxFsuFZE:
+      varName: scaffold1
+    z4YlFUkECJ:
+      category: widget
       type: fw/appBar
-      id: SwVxFsuFZE
-      parent: null
+      id: z4YlFUkECJ
+      parent: GepzD5FB2g
       children: []
       propData:
         type: object
@@ -267,12 +76,21 @@ layout:
           iconColor:
             type: string
             data: null
-      defaultPropData: null
+      defaultPropData:
+        type: object
+        data: null
+      initStateDefs: null
+      componentId: null
+      componentArgs:
+        type: object
+        data: null
       dataRef: null
-    uVDfALgjNX:
+      varName: appbar1
+    f04uMgpoL6:
+      category: widget
       type: digia/richText
-      id: uVDfALgjNX
-      parent: agwb55kgRV
+      id: f04uMgpoL6
+      parent: OwVv8WRwf7
       children: []
       propData:
         type: object
@@ -338,20 +156,117 @@ layout:
           onClick:
             type: action
             data: null
+      initStateDefs: null
+      componentId: null
+      componentArgs:
+        type: object
+        data: null
       dataRef: null
-    2yAWueJ6J6:
-      type: fw/scaffold
-      id: 2yAWueJ6J6
-      parent: null
+      varName: richtext1
+    cXpC6P3HB9:
+      category: widget
+      type: digia/image
+      id: cXpC6P3HB9
+      parent: OwVv8WRwf7
+      children: []
+      propData:
+        type: object
+        data:
+          style:
+            type: object
+            data:
+              borderRadius:
+                type: string
+                data: 0,0,0,0
+              bgColor:
+                type: string
+                data: '#EEEEEE'
+          fit:
+            type: string
+            data: cover
+          aspectRatio:
+            type: number
+            data: 2
+          imageSrc:
+            type: string
+            data: https://picsum.photos/id/9/400/225
+          placeHolder:
+            type: string
+            data: null
+          errorImage:
+            type: string
+            data: null
+      defaultPropData:
+        type: object
+        data:
+          visibility:
+            type: bool
+            data: true
+          align:
+            type: string
+            data: none
+          style:
+            type: object
+            data:
+              borderRadius:
+                type: string
+                data: 4,4,4,4
+              height:
+                type: string
+                data: '270'
+          onClick:
+            type: action
+            data: null
+      initStateDefs: null
+      componentId: null
+      componentArgs:
+        type: object
+        data: null
+      dataRef: null
+      varName: image1
+    OwVv8WRwf7:
+      category: widget
+      type: digia/column
+      id: OwVv8WRwf7
+      parent: GepzD5FB2g
       children:
-        - key: appBar
+        - key: children
           value:
-            - SwVxFsuFZE
-        - key: body
-          value:
-            - agwb55kgRV
-      propData: null
-      defaultPropData: null
+            - f04uMgpoL6
+            - cXpC6P3HB9
+      propData:
+        type: object
+        data:
+          mainAxisAlignment:
+            type: object
+            data: null
+          crossAxisAlignment:
+            type: string
+            data: start
+      defaultPropData:
+        type: object
+        data:
+          visibility:
+            type: bool
+            data: true
+          align:
+            type: string
+            data: none
+          style:
+            type: object
+            data:
+              padding:
+                type: string
+                data: 12,0,12,0
+          onClick:
+            type: action
+            data: null
+      initStateDefs: null
+      componentId: null
+      componentArgs:
+        type: object
+        data: null
       dataRef: null
-createdAt: '2023-12-16T18:03:41.163Z'
-updatedAt: '2023-12-16T18:03:41.163Z'
+      varName: column1
+createdAt: '2025-01-30T10:49:57.426Z'
+updatedAt: '2025-01-30T11:09:00.904Z'

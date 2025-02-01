@@ -4,15 +4,20 @@ const yaml = require('js-yaml');
 const path = require('path');
 const { json } = require('stream/consumers');
 
-const BASE_URL = ' https://f5d6-2401-4900-8857-1d0e-8111-7ea3-1bcf-a297.ngrok-free.app';
-// const projectId="677d293f73fa98800f79811a"
-// const token = "?wubr>hlenr^e(`@7_%/qO>>A~EmGsfdba35359d16f8b41003af524dafc508de49257c58f35e539e740a654053e82a"
+const BASE_URL = 'http://localhost:3000';
+
+// let projectId="679e71a12eb5e433e9413880"
+// const token = "?wubr>hlenr^e(`@7_%/qO>>A~EmGs12b4af7b31e305f84eb454b2946086c08012a8e45c49a63855fc7ca9a0976a0b"
+let branchName= "develop"
+
 
 // const BASE_URL = 'http://localhost:3000';
 
 const args = process.argv.slice(2); // Skip the first two default arguments
-const projectId = args[0];
+
+let projectId = args[0];
 const token = process.env.DIGIA_TOKEN;
+
 
 
 async function collectDataFromYamlFiles(folderPath, folderName) {
@@ -35,11 +40,14 @@ async function collectDataFromYamlFiles(folderPath, folderName) {
         } else if (path.extname(file) === '.yaml') {
           const yamlData = fs.readFileSync(filePath, 'utf8');
           const jsonData = yaml.load(yamlData);
-          console.log(jsonData)
-          if(jsonData.projectId)
-          {
-            projectId = jsonData.projectId;
-          }
+          // if(jsonData.projectId)
+          // {
+          //   projectId = jsonData.projectId;
+          // }
+          // if(folderName=="project" )
+          // {
+          //   projectId = jsonData.projectId
+          // }
 
           if (folderName === "functions" && filePath.includes(".js")) {
             const jsFilePath = filePath.replace('.yaml', '.js');
@@ -68,14 +76,14 @@ async function collectAllData() {
     { folderPath: path.join(__dirname, '..', 'datasources', 'environment'), folderName: 'environment' },
     { folderPath: path.join(__dirname, '..', 'pages'), folderName: 'pages' },
     { folderPath: path.join(__dirname, '..', 'components'), folderName: 'components' },
-    { folderPath: path.join(__dirname, '..', 'design'), folderName: 'design' },
+    { folderPath: path.join(__dirname, '..', 'design','font-tokens'), folderName: 'typoGraphy' },
+    { folderPath: path.join(__dirname, '..', 'design','color-tokens'), folderName: 'themeData' },
     { folderPath: path.join(__dirname, '..', 'functions'), folderName: 'functions' },
   ];
 
   const allData = {};
 
   for (const config of folderConfigs) {
-    console.log(`Collecting data from ${config.folderPath}`);
     allData[config.folderName] = await collectDataFromYamlFiles(config.folderPath, config.folderName);
   }
 
@@ -83,19 +91,27 @@ async function collectAllData() {
 }
 
 async function updateAllDataToBackend() {
-  const allData = await collectAllData();
-
   try {
-   
-    const response = await axios.post(`${BASE_URL}/api/v1/project/updateProjectDataForGithub`, {
-      data: allData,
-    }, {
-      headers: {
-        projectid:projectId,
-        "x-digia-github-token":token,
-      },
-    });
-    console.log(`All data updated successfully:`, response.data);
+    const createSet = new Set();
+    const updateSet = new Set();
+    const deleteSet = new Set();
+    const allFolderData = await collectAllData();
+    // console.log(allFolderData)
+    
+    
+
+    // Update project data
+    const updateResponse = await axios.post(
+      `${BASE_URL}/api/v1/project/updateProjectDataForGithub`,
+      { data: allFolderData,projectId:projectId,branchName:branchName },
+      {
+        headers: {
+          projectid: projectId,
+          "x-digia-github-token": token,
+        },
+      }
+    );
+    console.log("All data updated successfully:", updateResponse.data);
   } catch (error) {
     console.error(`Error updating data to backend: ${error.message}`);
   }
