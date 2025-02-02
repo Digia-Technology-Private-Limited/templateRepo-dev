@@ -1,5 +1,7 @@
 name: Fetch API Data and Convert to YAML
 
+run-name: ${{ inputs.uuId }}
+
 on:
   workflow_dispatch:
     inputs:
@@ -27,6 +29,10 @@ on:
         description: 'Commit message'
         required: true
         default: 'Add YAML files for project ID'
+      uuId:
+        description: 'Unique Id'
+        required: true
+        default: '0000'
 
 permissions:
   contents: write
@@ -64,6 +70,7 @@ jobs:
           USER_NAME: ${{ github.event.inputs.userName }}
           COMMIT_MESSAGE: ${{ github.event.inputs.commitMessage }}
           PROJECT_ID: ${{ github.event.inputs.projectId }}
+          UUID: ${{ github.event.inputs.uuId }}
         run: |
           git config --global user.name "$USER_NAME"
           git config --global user.email "$USER_EMAIL"
