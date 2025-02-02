@@ -8,8 +8,8 @@ const BASE_URL = 'https://6339-2401-4900-8854-89a0-9908-fb28-366f-5133.ngrok-fre
 const args = process.argv.slice(2); 
 const token = process.env.DIGIA_TOKEN;
 
-let projectId = args[0];
-let branchName = args[1];
+let projectId;
+let branchName = args[0];
 
 
 
@@ -37,10 +37,10 @@ async function collectDataFromYamlFiles(folderPath, folderName) {
           // {
           //   projectId = jsonData.projectId;
           // }
-          // if(folderName=="project" )
-          // {
-          //   projectId = jsonData.projectId
-          // }
+          if(folderName=="project" )
+          {
+            projectId = jsonData.projectId
+          }
 
           if (folderName === "functions" && filePath.includes(".js")) {
             const jsFilePath = filePath.replace('.yaml', '.js');
