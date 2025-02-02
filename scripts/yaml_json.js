@@ -4,19 +4,12 @@ const yaml = require('js-yaml');
 const path = require('path');
 const { json } = require('stream/consumers');
 
-const BASE_URL = 'http://localhost:3000';
-
-// let projectId="679e71a12eb5e433e9413880"
-// const token = "?wubr>hlenr^e(`@7_%/qO>>A~EmGs12b4af7b31e305f84eb454b2946086c08012a8e45c49a63855fc7ca9a0976a0b"
-let branchName= "develop"
-
-
-// const BASE_URL = 'http://localhost:3000';
-
-const args = process.argv.slice(2); // Skip the first two default arguments
+const BASE_URL = 'https://6339-2401-4900-8854-89a0-9908-fb28-366f-5133.ngrok-free.app';
+const args = process.argv.slice(2); 
+const token = process.env.DIGIA_TOKEN;
 
 let projectId = args[0];
-const token = process.env.DIGIA_TOKEN;
+let branchName = args[1];
 
 
 
