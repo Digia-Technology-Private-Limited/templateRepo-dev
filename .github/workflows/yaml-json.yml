@@ -8,15 +8,16 @@ on:
         required: true
         default: 'defaultProjectId'
 
-  push:
-    branches:
-      - main  
-
+  pull_request:
+    types:
+      - closed  # Runs when a PR is merged
+          
 permissions:
   contents: write
 
 jobs:
   fetch_and_convert:
+    if: github.event.pull_request.merged == true  # Ensures it runs only on merge
     runs-on: ubuntu-latest
 
     steps:
@@ -25,7 +26,7 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Check for first commit
+      - name: Check for First Commit
         run: |
           FIRST_COMMIT=$(git rev-list --max-parents=0 HEAD)
           echo "First commit hash: $FIRST_COMMIT"
@@ -34,7 +35,7 @@ jobs:
             echo "Skipping workflow because this is the first commit."
             exit 1
           fi
-            
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -45,11 +46,14 @@ jobs:
           npm init -y                   # Automatically create package.json
           npm install axios js-yaml     # Install required packages
 
+      - name: Get Branch Name
+        run: echo "BASE_BRANCH=${{ github.event.pull_request.base.ref }}" >> $GITHUB_ENV
+
       - name: Run Fetch and Convert Script
         env:
            DIGIA_TOKEN: ${{ secrets.DIGIA_TOKEN }}
         run: |
-          node scripts/yaml_json.js ${{ github.event.inputs.projectId }}
+          node scripts/yaml_json.js ${{ github.event.inputs.projectId }} $BASE_BRANCH
 
       - name: Cleanup Temporary Files
         run: |
