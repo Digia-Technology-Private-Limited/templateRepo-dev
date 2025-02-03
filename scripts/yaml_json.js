@@ -4,7 +4,7 @@ const yaml = require('js-yaml');
 const path = require('path');
 const { json } = require('stream/consumers');
 
-const BASE_URL = 'https://6339-2401-4900-8854-89a0-9908-fb28-366f-5133.ngrok-free.app';
+const BASE_URL = 'https://4676-103-48-109-107.ngrok-free.app';
 const args = process.argv.slice(2); 
 const token = process.env.DIGIA_TOKEN;
 

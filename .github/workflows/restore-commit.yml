@@ -1,0 +1,59 @@
+name: Fetch API Data and Convert to YAML
+
+
+run-name: ${{ inputs.uuId }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      commitHash:
+        description: "Commit hash to check out"
+        required: true
+      branchName:
+        description: "Branch name (for reference only, not used for commit)"
+        required: true
+      projectId:
+        description: "Project ID to fetch data for"
+        required: true
+      uuId:
+        description: 'Unique Id'
+        required: true
+        default: '0000'
+
+permissions:
+  contents: write 
+
+jobs:
+  fetch_and_convert:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Ensures full history is available
+
+      - name: Checkout to Specific Commit
+        run: |
+          git checkout ${{ github.event.inputs.commitHash }}
+          echo "Checked out to commit: ${{ github.event.inputs.commitHash }}"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install Dependencies
+        run: |
+          npm init -y
+          npm install axios js-yaml
+
+      - name: Run Fetch and Convert Script
+        env:
+          DIGIA_TOKEN: ${{ secrets.DIGIA_TOKEN }}
+        run: |
+          node scripts/yaml_json.js ${{ github.event.inputs.branchName }}
+
+      - name: Cleanup Temporary Files
+        run: |
+          rm -rf node_modules package.json package-lock.json
