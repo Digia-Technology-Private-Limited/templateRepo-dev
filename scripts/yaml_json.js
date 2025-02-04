@@ -4,7 +4,7 @@ const yaml = require('js-yaml');
 const path = require('path');
 const { json } = require('stream/consumers');
 
-const BASE_URL = 'https://1l1plsnjt4k7.share.zrok.io';
+const BASE_URL = 'https://5cwiexaxii53.share.zrok.io';
 const args = process.argv.slice(2); 
 const token = process.env.DIGIA_TOKEN;
 
