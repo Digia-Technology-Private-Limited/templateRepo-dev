@@ -61,6 +61,7 @@ jobs:
         env:
           DIGIA_TOKEN: ${{ secrets.DIGIA_TOKEN }}
         run: |
+          set -e  # Ensure the script stops on any failure
           node scripts/json_yaml.js ${{ github.event.inputs.projectId }} ${{ github.event.inputs.branchId }} ${{ github.event.inputs.branch }}
 
       - name: Commit and Push Changes

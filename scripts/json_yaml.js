@@ -3,7 +3,7 @@ const fs = require('fs');
 const yaml = require('js-yaml');
 const path = require('path');
 
-const BASE_URL = 'https://4676-103-48-109-107.ngrok-free.app';
+const BASE_URL = 'https://1l1plsnjt4k7.share.zrok.io';
 
 const args = process.argv.slice(2);
 const projectId = args[0];
@@ -108,6 +108,11 @@ async function fetchAllData() {
       }
     );
 
+    if (!response.data || !response.data.data || !response.data.data.response) {
+      console.error('Unexpected response format:', response.data);
+      process.exit(1);
+    }
+
     console.log(response.data.data.response);
 
     const { datasources, components, functions, pages, project, typoGraphy, themeData, envs } = response.data.data.response;
@@ -124,8 +129,10 @@ async function fetchAllData() {
     console.log(`Data for project ID ${projectId} has been fetched and saved.`);
   } catch (error) {
     console.error(`Error fetching data: ${error.message}`);
+    process.exit(1); 
   }
 }
+
 
 // Start the process
 fetchAllData();
