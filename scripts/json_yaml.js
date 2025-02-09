@@ -23,45 +23,32 @@ if (!projectId) {
   process.exit(1);
 }
 
-// function removeIds(obj) {
-//   if (Array.isArray(obj)) {
-//     return obj.map(removeIds);
-//   } else if (obj !== null && typeof obj === 'object') {
-//     return Object.keys(obj).reduce((acc, key) => {
-//       if (!['id', 'projectId', 'branchId','createdAt','updatedAt',].includes(key)) {
-//         acc[key] = removeIds(obj[key]);
-//       }
-//       return acc;
-//     }, {});
-//   }
-//   return obj;
-// }
-
-function removeIds(obj) {
+function removeIds(obj, excludeProjectId = false) {
   if (Array.isArray(obj)) {
     return obj.map(item => {
-      if (item && typeof(item) === 'object') {
-        return filterObj(item)
+      if (item && typeof item === 'object') {
+        return filterObj(item, excludeProjectId);
       }
       return item;
     });
-    
-  } else if (obj && typeof(obj) === 'object') {
-    return  filterObj(obj)
+  } else if (obj && typeof obj === 'object') {
+    return filterObj(obj, excludeProjectId);
   }
   return obj;
 }
 
-function filterObj(item)
-{
+function filterObj(item, excludeProjectId) {
+  const keysToRemove = ['id', '_id', 'branchId', 'userId','createdAt','updatedAt'];
+  if (!excludeProjectId) {
+    keysToRemove.push('projectId');
+  }
+  
   return Object.fromEntries(
-    Object.entries(item).filter(([key]) => !['id','_id', 'branchId', 'userId','projectId'].includes(key))
+    Object.entries(item).filter(([key]) => !keysToRemove.includes(key))
   );
-
 }
 
 
-// Function to delete specific folders
 function deleteFolders(folders) {
   folders.forEach((folder) => {
     const dirPath = path.join(__dirname, '..', folder);
@@ -72,13 +59,17 @@ function deleteFolders(folders) {
   });
 }
 
-// Function to process and save data based on the structure
 function processAndSaveData(parentFolderName, folderName, data, fileName = 'default') {
   const dirPath = path.join(__dirname, '..', parentFolderName, folderName);
   fs.mkdirSync(dirPath, { recursive: true });
 
 
-  data = removeIds(data); // Remove IDs before saving
+ if (parentFolderName !== "project") {
+    data = removeIds(data);
+  } else {
+    data = removeIds(data, true); 
+  }
+
 
   if (Array.isArray(data)) {
     data.forEach((item) => {
@@ -159,5 +150,4 @@ async function fetchAllData() {
 }
 
 
-// Start the process
 fetchAllData();
