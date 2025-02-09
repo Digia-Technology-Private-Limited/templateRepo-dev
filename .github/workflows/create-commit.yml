@@ -1,4 +1,4 @@
-name: Fetch API Data and Convert to YAML
+name: Create Commit
 
 run-name: ${{ inputs.uuId }}
 
@@ -38,7 +38,7 @@ permissions:
   contents: write
 
 jobs:
-  fetch_and_convert:
+  create_commit:
     runs-on: ubuntu-latest
 
     steps:

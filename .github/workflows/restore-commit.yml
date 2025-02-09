@@ -1,4 +1,4 @@
-name: Fetch API Data and Convert to YAML
+name: Restore Commit
 
 
 run-name: ${{ inputs.uuId }}
@@ -24,7 +24,7 @@ permissions:
   contents: write 
 
 jobs:
-  fetch_and_convert:
+  restore_commit:
     runs-on: ubuntu-latest
 
     steps:

@@ -1,4 +1,4 @@
-name: Fetch API Data and Convert to YAML
+name: Merge Branches
 
 on:
   workflow_dispatch:
@@ -16,7 +16,7 @@ permissions:
   contents: write
 
 jobs:
-  fetch_and_convert:
+  merge_branches:
     if: github.event.pull_request.merged == true  # Ensures it runs only on merge
     runs-on: ubuntu-latest
 
