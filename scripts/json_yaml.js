@@ -5,17 +5,17 @@ const path = require('path');
 
 const BASE_URL = 'https://5cwiexaxii53.share.zrok.io';
 
-const args = process.argv.slice(2);
-const projectId = args[0];
-const branchId = args[1];
-const token = process.env.DIGIA_TOKEN;
+// const args = process.argv.slice(2);
+// const projectId = args[0];
+// const branchId = args[1];
+// const token = process.env.DIGIA_TOKEN;
 
 
 
 
-// const projectId = "679e71a12eb5e433e9413880"
-// const branchId = "679e7cf07d71aba9a52b788e"
-// const token = "?wubr>hlenr^e(`@7_%/qO>>A~EmGs12b4af7b31e305f84eb454b2946086c08012a8e45c49a63855fc7ca9a0976a0b"
+const projectId = "67a89172224494c9852379d3"
+const branchId = "67a89172224494c9852379d5"
+const token = "?wubr>hlenr^e(`@7_%/qO>>A~EmGs12b4af7b31e305f84eb454b2946086c08012a8e45c49a63855fc7ca9a0976a0b"
 // Validate projectId
 
 if (!projectId) {
@@ -28,7 +28,7 @@ if (!projectId) {
 //     return obj.map(removeIds);
 //   } else if (obj !== null && typeof obj === 'object') {
 //     return Object.keys(obj).reduce((acc, key) => {
-//       if (!['id', 'projectId', 'branchId'].includes(key)) {
+//       if (!['id', 'projectId', 'branchId','createdAt','updatedAt',].includes(key)) {
 //         acc[key] = removeIds(obj[key]);
 //       }
 //       return acc;
@@ -36,6 +36,30 @@ if (!projectId) {
 //   }
 //   return obj;
 // }
+
+function removeIds(obj) {
+  if (Array.isArray(obj)) {
+    return obj.map(item => {
+      if (item && typeof(item) === 'object') {
+        return filterObj(item)
+      }
+      return item;
+    });
+    
+  } else if (obj && typeof(obj) === 'object') {
+    return  filterObj(obj)
+  }
+  return obj;
+}
+
+function filterObj(item)
+{
+  return Object.fromEntries(
+    Object.entries(item).filter(([key]) => !['id','_id', 'branchId', 'userId','projectId'].includes(key))
+  );
+
+}
+
 
 // Function to delete specific folders
 function deleteFolders(folders) {
@@ -53,7 +77,8 @@ function processAndSaveData(parentFolderName, folderName, data, fileName = 'defa
   const dirPath = path.join(__dirname, '..', parentFolderName, folderName);
   fs.mkdirSync(dirPath, { recursive: true });
 
-  // data = removeIds(data); // Remove IDs before saving
+
+  data = removeIds(data); // Remove IDs before saving
 
   if (Array.isArray(data)) {
     data.forEach((item) => {
