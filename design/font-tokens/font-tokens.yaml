@@ -1,6 +1,3 @@
-id: 679b59d337b436947ce23221
-projectId: 679b594f37b436947ce23189
-branchId: 679b59d337b436947ce23210
 assetType: TYPOGRAPHY
 assetData:
   typography:
@@ -119,5 +116,5 @@ assetData:
         italic: false
         lineHeight: 1.33
     custom: []
-createdAt: '2025-01-30T10:49:52.030Z'
-updatedAt: '2025-01-30T10:49:52.030Z'
+createdAt: '2025-02-09T11:28:51.302Z'
+updatedAt: '2025-02-09T12:18:34.597Z'

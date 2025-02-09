@@ -5,17 +5,17 @@ const path = require('path');
 
 const BASE_URL = 'https://5cwiexaxii53.share.zrok.io';
 
-// const args = process.argv.slice(2);
-// const projectId = args[0];
-// const branchId = args[1];
-// const token = process.env.DIGIA_TOKEN;
+const args = process.argv.slice(2);
+const projectId = args[0];
+const branchId = args[1];
+const token = process.env.DIGIA_TOKEN;
 
 
 
 
-const projectId = "67a89172224494c9852379d3"
-const branchId = "67a89172224494c9852379d5"
-const token = "?wubr>hlenr^e(`@7_%/qO>>A~EmGs12b4af7b31e305f84eb454b2946086c08012a8e45c49a63855fc7ca9a0976a0b"
+// const projectId = "67a89172224494c9852379d3"
+// const branchId = "67a89172224494c9852379d5"
+// const token = "?wubr>hlenr^e(`@7_%/qO>>A~EmGs12b4af7b31e305f84eb454b2946086c08012a8e45c49a63855fc7ca9a0976a0b"
 // Validate projectId
 
 if (!projectId) {
