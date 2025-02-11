@@ -2,6 +2,7 @@ const axios = require('axios');
 const fs = require('fs');
 const yaml = require('js-yaml');
 const path = require('path');
+const { parseArgs } = require('util');
 
 const BASE_URL = 'https://5cwiexaxii53.share.zrok.io';
 
@@ -13,8 +14,8 @@ const token = process.env.DIGIA_TOKEN;
 
 
 
-// const projectId = "67a89172224494c9852379d3"
-// const branchId = "67a89172224494c9852379d5"
+// const projectId = "67a8f686acd58e18462ab068"
+// const branchId = "67a8f686acd58e18462ab06a"
 // const token = "?wubr>hlenr^e(`@7_%/qO>>A~EmGs12b4af7b31e305f84eb454b2946086c08012a8e45c49a63855fc7ca9a0976a0b"
 // Validate projectId
 
@@ -75,18 +76,20 @@ function processAndSaveData(parentFolderName, folderName, data, fileName = 'defa
     data.forEach((item) => {
       const yamlData = yaml.dump(item,{ sortKeys: false });
       let currentFileName = fileName;
-
+      
       if (item.name) currentFileName = item.name;
       if (item.displayName) currentFileName = item.displayName;
       if (item.functionName) currentFileName = item.functionName;
+    
+      if(folderName =="environment")
+      {
+        currentFileName= item.kind
+      }
 
       const yamlFilePath = path.join(dirPath, `${currentFileName}.yaml`);
       fs.writeFileSync(yamlFilePath, yamlData);
 
-      if (item.functionRawString) {
-        const jsFilePath = path.join(dirPath, `${currentFileName}.js`);
-        fs.writeFileSync(jsFilePath, item.functionRawString);
-      }
+    
 
       console.log(`Created: ${yamlFilePath}`);
     });
@@ -100,7 +103,7 @@ function processAndSaveData(parentFolderName, folderName, data, fileName = 'defa
       folderName = 'color-tokens';
     }
     if (parentFolderName === 'project' && data.appDetails?.displayName) {
-      folderName = data.appDetails.displayName;
+      folderName = "projectDetails";
     }
 
     const yamlFilePath = path.join(dirPath, `${folderName}.yaml`);
@@ -129,10 +132,8 @@ async function fetchAllData() {
       process.exit(1);
     }
 
-    console.log(response.data.data.response);
 
     const { datasources, components, functions, pages, project, typoGraphy, themeData, envs } = response.data.data.response;
-
     processAndSaveData('datasources', 'rest', datasources);
     processAndSaveData('datasources', 'environment', envs);
     processAndSaveData('components', '', components);

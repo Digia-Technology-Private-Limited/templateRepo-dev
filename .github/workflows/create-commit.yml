@@ -60,6 +60,7 @@ jobs:
       - name: Run Fetch and Convert Script
         env:
           DIGIA_TOKEN: ${{ secrets.DIGIA_TOKEN }}
+          # fetch script and write it into the script folder
         run: |
           set -e  # Ensure the script stops on any failure
           node scripts/json_yaml.js ${{ github.event.inputs.projectId }} ${{ github.event.inputs.branchId }} ${{ github.event.inputs.branch }}

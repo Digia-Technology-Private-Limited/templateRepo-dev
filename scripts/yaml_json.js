@@ -19,7 +19,7 @@ async function collectDataFromYamlFiles(folderPath, folderName) {
   const traverseFolder = (currentPath) => {
     if (!fs.existsSync(currentPath)) {
       console.warn(`Warning: Folder not found - ${currentPath}`);
-      return; // Skip processing if the folder doesn't exist
+      return;
     }
 
     const files = fs.readdirSync(currentPath);
@@ -33,19 +33,20 @@ async function collectDataFromYamlFiles(folderPath, folderName) {
         } else if (path.extname(file) === '.yaml') {
           const yamlData = fs.readFileSync(filePath, 'utf8');
           const jsonData = yaml.load(yamlData);
-          // if(jsonData.projectId)
-          // {
-          //   projectId = jsonData.projectId;
-          // }
+
           if(folderName=="project" )
           {
+          
             projectId = jsonData.projectId
           }
 
-          if (folderName === "functions" && filePath.includes(".js")) {
+          if (folderName === "functions") {
             const jsFilePath = filePath.replace('.yaml', '.js');
+          
             if (fs.existsSync(jsFilePath)) {
               jsonData.functionRawString = fs.readFileSync(jsFilePath, 'utf8');
+            } else {
+              jsonData.functionRawString = ""; 
             }
           }
 
@@ -85,14 +86,7 @@ async function collectAllData() {
 
 async function updateAllDataToBackend() {
   try {
-    const createSet = new Set();
-    const updateSet = new Set();
-    const deleteSet = new Set();
     const allFolderData = await collectAllData();
-    // console.log(allFolderData)
-    
-    
-
     // Update project data
     const updateResponse = await axios.post(
       `${BASE_URL}/api/v1/project/updateProjectDataForGithub`,
@@ -104,7 +98,6 @@ async function updateAllDataToBackend() {
         },
       }
     );
-    console.log("All data updated successfully:", updateResponse.data);
   } catch (error) {
     console.error(`Error updating data to backend: ${error.message}`);
   }
