@@ -61,6 +61,7 @@ jobs:
         run: |
           VERSION=$(cat version.yaml | awk -F'=' '{print $2}' | awk -F'.' '{print $1}')
           echo "Extracted major version: $VERSION"
+          [ -d scripts ] || mkdir scripts
           curl -o scripts/json_yaml.js "https://digia-backend-files.s3.ap-south-1.amazonaws.com/github-scripts/version/$VERSION/json_yaml.js"
           chmod +x scripts/json_yaml.js
 
