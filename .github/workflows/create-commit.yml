@@ -57,13 +57,25 @@ jobs:
           npm init -y                   # Automatically create package.json
           npm install axios js-yaml     # Install required packages
 
+      - name: Fetch json_yaml.js Script
+        run: |
+          VERSION=$(cat version.yaml | awk -F'=' '{print $2}' | awk -F'.' '{print $1}')
+          echo "Extracted major version: $VERSION"
+          curl -o scripts/json_yaml.js "https://digia-backend-files.s3.ap-south-1.amazonaws.com/github-scripts/version/$VERSION/json_yaml.js"
+          chmod +x scripts/json_yaml.js
+
+
       - name: Run Fetch and Convert Script
         env:
           DIGIA_TOKEN: ${{ secrets.DIGIA_TOKEN }}
-          # fetch script and write it into the script folder
         run: |
           set -e  # Ensure the script stops on any failure
           node scripts/json_yaml.js ${{ github.event.inputs.projectId }} ${{ github.event.inputs.branchId }} ${{ github.event.inputs.branch }}
+
+      - name: Cleanup Temporary Files
+        run: |
+          sudo chmod -R 777 node_modules package.json package-lock.json scripts/json_yaml.js
+          sudo rm -rf node_modules package.json package-lock.json scripts/json_yaml.js
 
       - name: Commit and Push Changes
         env:
@@ -85,7 +97,3 @@ jobs:
             git commit -m "$COMMIT_MESSAGE"
             git push origin $BRANCH
           fi
-
-      - name: Cleanup Temporary Files
-        run: |
-          rm -rf node_modules package.json package-lock.json  # Cleanup after job

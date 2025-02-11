@@ -48,6 +48,13 @@ jobs:
 
       - name: Get Branch Name
         run: echo "BASE_BRANCH=${{ github.event.pull_request.base.ref }}" >> $GITHUB_ENV
+      
+      - name: Fetch yaml_json.js Script
+        run: |
+          VERSION=$(cat version.yaml | awk -F'=' '{print $2}' | awk -F'.' '{print $1}')
+          echo "Extracted major version: $VERSION"
+          curl -o scripts/yaml_json.js "https://digia-backend-files.s3.ap-south-1.amazonaws.com/github-scripts/version/$VERSION/yaml_json.js"
+          chmod +x scripts/yaml_json.js
 
       - name: Run Fetch and Convert Script
         env:
@@ -57,4 +64,6 @@ jobs:
 
       - name: Cleanup Temporary Files
         run: |
-          rm -rf node_modules package.json package-lock.json  # Cleanup after job
+          sudo chmod -R 777 node_modules package.json package-lock.json scripts/yaml_json.js
+          sudo rm -rf node_modules package.json package-lock.json scripts/yaml_json.js
+
