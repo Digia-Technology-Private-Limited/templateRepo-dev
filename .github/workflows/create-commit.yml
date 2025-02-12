@@ -68,11 +68,6 @@ jobs:
           ./commit_changes.sh "$projectId" "$branchId" "$branch" "$VERSION"
 
 
-      - name: Cleanup Temporary Files
-        run: |
-          sudo chmod -R 777 node_modules package.json package-lock.json scripts/json_yaml.js
-          sudo rm -rf node_modules package.json package-lock.json scripts/json_yaml.js
-
       - name: Commit and Push Changes
         env:
           BRANCH: ${{ github.event.inputs.branch }}
