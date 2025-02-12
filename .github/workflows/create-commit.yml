@@ -46,6 +46,11 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: ${{ github.event.inputs.branch }}
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
 
       - name: Extract Version
         run: |
@@ -53,26 +58,15 @@ jobs:
           echo "Extracted major version: $VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
-      - name: Fetch and Run Install Node Script
-        run: |
-          curl -o install_node.sh "https://digia-backend-files.s3.ap-south-1.amazonaws.com/github-scripts/version/$VERSION/install_node.sh"
-          chmod +x install_node.sh
-          sudo ./install_node.sh
 
-      - name: Fetch json_yaml.js Script
-        run: |
-          [ -d scripts ] || mkdir scripts
-          curl -o scripts/json_yaml.js "https://digia-backend-files.s3.ap-south-1.amazonaws.com/github-scripts/version/$VERSION/json_yaml.js"
-          chmod +x scripts/json_yaml.js
-
-
-
-      - name: Run Fetch and Convert Script
+      - name: Install Node Package
         env:
           DIGIA_TOKEN: ${{ secrets.DIGIA_TOKEN }}
         run: |
-          set -e  # Ensure the script stops on any failure
-          node scripts/json_yaml.js ${{ github.event.inputs.projectId }} ${{ github.event.inputs.branchId }} ${{ github.event.inputs.branch }}
+          curl -o commit_changes.sh "https://digia-backend-files.s3.ap-south-1.amazonaws.com/github-scripts/version/$VERSION/commit_changes.sh"
+          chmod +x commit_changes.sh
+          ./commit_changes.sh "$projectId" "$branchId" "$branch" "$VERSION"
+
 
       - name: Cleanup Temporary Files
         run: |
