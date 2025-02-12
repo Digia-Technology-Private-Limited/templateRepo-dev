@@ -54,6 +54,7 @@ jobs:
       - name: Merge Changes
         env:
            DIGIA_TOKEN: ${{ secrets.DIGIA_TOKEN }}
+           BASE_URL: ${{ secrets.BASE_URL }}
         run: |
           echo "$BASE_BRANCH"
           curl -o merge_changes.sh "https://raw.githubusercontent.com/Digia-Technology-Private-Limited/digia_public_scripts/refs/heads/main/github/version/$VERSION/merge_changes.sh"
