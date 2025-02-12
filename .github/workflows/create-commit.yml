@@ -47,15 +47,11 @@ jobs:
         with:
           ref: ${{ github.event.inputs.branch }}
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '22'
-
-      - name: Initialize Node.js Project and Install Dependencies
+      - name: Fetch and Run Install Node Script
         run: |
-          npm init -y                   # Automatically create package.json
-          npm install axios js-yaml     # Install required packages
+          curl -o install_node.sh "https://digia-backend-files.s3.ap-south-1.amazonaws.com/github-scripts/version/1/install_node.sh"
+          chmod +x install_node.sh
+          sudo ./install_node.sh
 
       - name: Fetch json_yaml.js Script
         run: |
