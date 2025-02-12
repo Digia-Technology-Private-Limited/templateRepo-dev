@@ -41,30 +41,23 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Initialize Node.js Project and Install Dependencies
+      - name: Extract Version
         run: |
-          npm init -y                   # Automatically create package.json
-          npm install axios js-yaml     # Install required packages
+          VERSION=$(cat version.yaml | awk -F'=' '{print $2}' | awk -F'.' '{print $1}')
+          echo "Extracted major version: $VERSION"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
 
       - name: Get Branch Name
         run: echo "BASE_BRANCH=${{ github.event.pull_request.base.ref }}" >> $GITHUB_ENV
       
-      - name: Fetch yaml_json.js Script
-        run: |
-          VERSION=$(cat version.yaml | awk -F'=' '{print $2}' | awk -F'.' '{print $1}')
-          echo "Extracted major version: $VERSION"
-          [ -d scripts ] || mkdir scripts
-          curl -o scripts/yaml_json.js "https://digia-backend-files.s3.ap-south-1.amazonaws.com/github-scripts/version/$VERSION/yaml_json.js"
-          chmod +x scripts/yaml_json.js
-
-      - name: Run Fetch and Convert Script
+      - name: Merge Changes
         env:
            DIGIA_TOKEN: ${{ secrets.DIGIA_TOKEN }}
         run: |
-          node scripts/yaml_json.js ${{ github.event.inputs.projectId }} $BASE_BRANCH
+          echo "$BASE_BRANCH"
+          curl -o merge_changes.sh "https://raw.githubusercontent.com/Digia-Technology-Private-Limited/digia_public_scripts/refs/heads/main/github/version/$VERSION/merge_changes.sh"
+          chmod +x merge_changes.sh
+          ./merge_changes.sh "$BASE_BRANCH" "$VERSION"
 
-      - name: Cleanup Temporary Files
-        run: |
-          sudo chmod -R 777 node_modules package.json package-lock.json scripts/yaml_json.js
-          sudo rm -rf node_modules package.json package-lock.json scripts/yaml_json.js
 

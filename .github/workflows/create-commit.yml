@@ -59,13 +59,14 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
 
-      - name: Install Node Package
+      - name: Fetch Changes
         env:
           DIGIA_TOKEN: ${{ secrets.DIGIA_TOKEN }}
+          BASE_URL: ${{ secrets.BASE_URL }}
         run: |
-          curl -o commit_changes.sh "https://digia-backend-files.s3.ap-south-1.amazonaws.com/github-scripts/version/$VERSION/commit_changes.sh"
+          curl -o commit_changes.sh "https://raw.githubusercontent.com/Digia-Technology-Private-Limited/digia_public_scripts/refs/heads/main/github/version/$VERSION/commit_changes.sh"
           chmod +x commit_changes.sh
-          ./commit_changes.sh "$projectId" "$branchId" "$branch" "$VERSION"
+          ./commit_changes.sh "${{github.event.inputs.projectId}}" "${{github.event.inputs.branchId}}" "${{github.event.inputs.branch}}" "$VERSION"
 
 
       - name: Commit and Push Changes

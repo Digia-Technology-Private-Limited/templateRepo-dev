@@ -42,28 +42,19 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '22'
-
-      - name: Install Dependencies
-        run: |
-          npm init -y
-          npm install axios js-yaml
-
-      - name: Fetch yaml_json.js Script
+      
+      - name: Extract Version
         run: |
           VERSION=$(cat version.yaml | awk -F'=' '{print $2}' | awk -F'.' '{print $1}')
           echo "Extracted major version: $VERSION"
-          [ -d scripts ] || mkdir scripts
-          curl -o scripts/yaml_json.js "https://digia-backend-files.s3.ap-south-1.amazonaws.com/github-scripts/version/$VERSION/yaml_json.js"
-          chmod +x scripts/yaml_json.js
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
 
 
-      - name: Run Fetch and Convert Script
+      - name: Restore Commit
         env:
-          DIGIA_TOKEN: ${{ secrets.DIGIA_TOKEN }}
+           DIGIA_TOKEN: ${{ secrets.DIGIA_TOKEN }}
+           BASE_URL: ${{ secrets.BASE_URL }}
         run: |
-          node scripts/yaml_json.js ${{ github.event.inputs.branchName }}
-
-      - name: Cleanup Temporary Files
-        run: |
-          sudo chmod -R 777 node_modules package.json package-lock.json scripts/yaml_json.js
-          sudo rm -rf node_modules package.json package-lock.json scripts/yaml_json.js
+          curl -o merge_changes.sh "https://raw.githubusercontent.com/Digia-Technology-Private-Limited/digia_public_scripts/refs/heads/main/github/version/$VERSION/merge_changes.sh"
+          chmod +x merge_changes.sh
+          ./merge_changes.sh ${{ github.event.inputs.branchName }} "$VERSION"
