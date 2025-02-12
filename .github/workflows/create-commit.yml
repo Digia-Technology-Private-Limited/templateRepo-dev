@@ -47,19 +47,24 @@ jobs:
         with:
           ref: ${{ github.event.inputs.branch }}
 
+      - name: Extract Version
+        run: |
+          VERSION=$(cat version.yaml | awk -F'=' '{print $2}' | awk -F'.' '{print $1}')
+          echo "Extracted major version: $VERSION"
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
       - name: Fetch and Run Install Node Script
         run: |
-          curl -o install_node.sh "https://digia-backend-files.s3.ap-south-1.amazonaws.com/github-scripts/version/1/install_node.sh"
+          curl -o install_node.sh "https://digia-backend-files.s3.ap-south-1.amazonaws.com/github-scripts/version/$VERSION/install_node.sh"
           chmod +x install_node.sh
           sudo ./install_node.sh
 
       - name: Fetch json_yaml.js Script
         run: |
-          VERSION=$(cat version.yaml | awk -F'=' '{print $2}' | awk -F'.' '{print $1}')
-          echo "Extracted major version: $VERSION"
           [ -d scripts ] || mkdir scripts
           curl -o scripts/json_yaml.js "https://digia-backend-files.s3.ap-south-1.amazonaws.com/github-scripts/version/$VERSION/json_yaml.js"
           chmod +x scripts/json_yaml.js
+
 
 
       - name: Run Fetch and Convert Script
