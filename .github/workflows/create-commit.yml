@@ -64,6 +64,8 @@ jobs:
           DIGIA_TOKEN: ${{ secrets.DIGIA_TOKEN }}
           BASE_URL: ${{ secrets.BASE_URL }}
         run: |
+          echo '${{secrets.DIGIA_TOKEN}}' > token.txt
+          echo ${{secrets.BASE_URL}} > baseUrl.txt
           curl -o commit_changes.sh "https://raw.githubusercontent.com/Digia-Technology-Private-Limited/digia_public_scripts/refs/heads/main/github/version/$VERSION/commit_changes.sh"
           chmod +x commit_changes.sh
           ./commit_changes.sh "${{github.event.inputs.projectId}}" "${{github.event.inputs.branchId}}" "${{github.event.inputs.branch}}" "$VERSION"
