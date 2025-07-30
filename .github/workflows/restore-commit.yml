@@ -69,7 +69,7 @@ jobs:
           # Get the tree of the commitHash
           TREE_HASH=$(git rev-parse ${{ github.event.inputs.commitHash }}^{tree})
           FULL_HASH="${{ github.event.inputs.commitHash }}"
-          SHORT_HASH=${FULL_HASH:0:6}
+          SHORT_HASH=${FULL_HASH:0:7}
           
           # Create a new commit using that tree on top of current HEAD
           NEW_COMMIT=$(echo "Restore contents from $SHORT_HASH" | git commit-tree $TREE_HASH -p HEAD)
