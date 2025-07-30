@@ -1,27 +1,26 @@
 name: Restore Commit
 
-
 run-name: ${{ inputs.uuId }}
 
 on:
   workflow_dispatch:
     inputs:
       commitHash:
-        description: "Commit hash to check out"
+        description: "Commit hash to restore contents from"
         required: true
       branchName:
-        description: "Branch name (for reference only, not used for commit)"
+        description: "Branch name to push to"
         required: true
       projectId:
         description: "Project ID to fetch data for"
         required: true
       uuId:
-        description: 'Unique Id'
+        description: "Unique ID"
         required: true
-        default: '0000'
+        default: "0000"
 
 permissions:
-  contents: write 
+  contents: write
 
 jobs:
   restore_commit:
@@ -31,8 +30,13 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0  # Ensures full history is available
+          fetch-depth: 0  # Fetch full history
 
+      - name: Set Git Identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
       - name: Checkout to Specific Commit
         run: |
           git checkout ${{ github.event.inputs.commitHash }}
@@ -42,19 +46,35 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '22'
-      
-      - name: Extract Version
+
+      - name: Extract Major Version
         run: |
           VERSION=$(cat version.yaml | awk -F'=' '{print $2}' | awk -F'.' '{print $1}')
           echo "Extracted major version: $VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
 
-      - name: Restore Commit
+      - name: Run Restore Script
         env:
-           DIGIA_TOKEN: ${{ secrets.DIGIA_TOKEN }}
-           BASE_URL: ${{ secrets.BASE_URL }}
+          DIGIA_TOKEN: ${{ secrets.DIGIA_TOKEN }}
+          BASE_URL: ${{ secrets.BASE_URL }}
         run: |
           curl -o merge_changes.sh "https://raw.githubusercontent.com/Digia-Technology-Private-Limited/digia_public_scripts/refs/heads/main/github/version/$VERSION/merge_changes.sh"
           chmod +x merge_changes.sh
           ./merge_changes.sh ${{ github.event.inputs.branchName }} "$VERSION"
+
+      - name: Create Restore Commit
+        run: |
+          sleep 2
+          # Get the tree of the commitHash
+          TREE_HASH=$(git rev-parse ${{ github.event.inputs.commitHash }}^{tree})
+          FULL_HASH="${{ github.event.inputs.commitHash }}"
+          SHORT_HASH=${FULL_HASH:0:7}
+          
+          # Create a new commit using that tree on top of current HEAD
+          NEW_COMMIT=$(echo "Restore contents from $SHORT_HASH" | git commit-tree $TREE_HASH -p HEAD)
+
+          # Update branch with new commit
+          git checkout ${{ github.event.inputs.branchName }}
+          git reset --hard $NEW_COMMIT
+          git push origin ${{ github.event.inputs.branchName }} --force
