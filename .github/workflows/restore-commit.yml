@@ -49,7 +49,7 @@ jobs:
 
       - name: Extract Major Version
         run: |
-          VERSION=$(awk -F'=' '/version/ {print $2}' version.yaml | awk -F'.' '{print $1}')
+          VERSION=$(cat version.yaml | awk -F'=' '{print $2}' | awk -F'.' '{print $1}')
           echo "Extracted major version: $VERSION"
           echo "VERSION=$VERSION" >> $GITHUB_ENV
 
@@ -59,7 +59,7 @@ jobs:
           DIGIA_TOKEN: ${{ secrets.DIGIA_TOKEN }}
           BASE_URL: ${{ secrets.BASE_URL }}
         run: |
-          curl -o merge_changes.sh "https://raw.githubusercontent.com/Digia-Technology-Private-Limited/digia_public_scripts/main/github/version/$VERSION/merge_changes.sh"
+          curl -o merge_changes.sh "https://raw.githubusercontent.com/Digia-Technology-Private-Limited/digia_public_scripts/refs/heads/main/github/version/$VERSION/merge_changes.sh"
           chmod +x merge_changes.sh
           ./merge_changes.sh ${{ github.event.inputs.branchName }} "$VERSION"
 
@@ -68,9 +68,11 @@ jobs:
           sleep 2
           # Get the tree of the commitHash
           TREE_HASH=$(git rev-parse ${{ github.event.inputs.commitHash }}^{tree})
+          FULL_HASH="${{ github.event.inputs.commitHash }}"
+          SHORT_HASH=${FULL_HASH:0:6}
           
           # Create a new commit using that tree on top of current HEAD
-          NEW_COMMIT=$(echo "Restore contents from ${{ github.event.inputs.commitHash }}" | git commit-tree $TREE_HASH -p HEAD)
+          NEW_COMMIT=$(echo "Restore contents from $SHORT_HASH" | git commit-tree $TREE_HASH -p HEAD)
 
           # Update branch with new commit
           git checkout ${{ github.event.inputs.branchName }}
