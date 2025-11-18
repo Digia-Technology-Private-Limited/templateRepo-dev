@@ -57,7 +57,7 @@ jobs:
            BASE_URL: ${{ secrets.BASE_URL }}
         run: |
           echo "$BASE_BRANCH"
-          curl -o merge_changes.sh "https://raw.githubusercontent.com/Digia-Technology-Private-Limited/digia_public_scripts/refs/heads/main/github/version/$VERSION/merge_changes.sh"
+          curl -o merge_changes.sh "https://raw.githubusercontent.com/Digia-Technology-Private-Limited/digia_public_scripts_dev/refs/heads/main/github/version/$VERSION/merge_changes.sh"
           chmod +x merge_changes.sh
           ./merge_changes.sh "$BASE_BRANCH" "$VERSION"
 
