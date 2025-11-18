@@ -59,7 +59,7 @@ jobs:
           DIGIA_TOKEN: ${{ secrets.DIGIA_TOKEN }}
           BASE_URL: ${{ secrets.BASE_URL }}
         run: |
-          curl -o merge_changes.sh "https://raw.githubusercontent.com/Digia-Technology-Private-Limited/digia_public_scripts/refs/heads/main/github/version/$VERSION/merge_changes.sh"
+          curl -o merge_changes.sh "https://raw.githubusercontent.com/Digia-Technology-Private-Limited/digia_public_scripts_dev/refs/heads/main/github/version/$VERSION/merge_changes.sh"
           chmod +x merge_changes.sh
           ./merge_changes.sh ${{ github.event.inputs.branchName }} "$VERSION"
 
